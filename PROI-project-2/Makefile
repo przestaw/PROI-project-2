@@ -1,3 +1,8 @@
+#PROI, Lab project 2: 'Theater'
+#Kamil Zacharczuk
+#
+#THIS MAKEFILE PROBABLY DOES NOT WORK
+
 CC = g++
 
 BINDIR = ./bin
