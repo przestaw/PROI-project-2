@@ -1,23 +1,25 @@
 /*
  * test2.cpp
  *
- * - TEST #2
- * - Laboratory project 2: "Theater", PROI
- * - Tutor: dr inż. Wiktor Kuśmirek
- *
- * - A programme for testing the theater implementing classes
- * - Testing includes:
+ * TEST #2
+ * A programme for testing the theater implementing classes
+ * Testing includes:
  *  > Managing the customers database
  *  > Managing the performances database
  *  > Subscribing and unsubscribing customers to the performances
- * - Version: 27.03.2018, Kamil Zacharczuk
+ *
+ * PROI, Lab project 2: 'Theater'
+ * Tutor: dr inz. Wiktor Kuśmirek
+ * Version 06.04.18, Kamil Zacharczuk
  */
 
 #include <iostream>
 #include <string>
 
-#include "Queue.hpp" //template linked list queue
-#include "theater.hpp" //theater implementing classes
+#include "../include/Customer.hpp"
+#include "../include/Show.hpp"
+#include "../include/Menus.hpp"
+#include "../include/Queue.hpp" //template linked list queue
 
 using namespace std;
 
@@ -25,6 +27,7 @@ using namespace std;
 
 //User choices:
 bool b_quit; //quit the programme
+bool b_quit1; //quit the menu
 int decision; //menu choice
 
 //Queues
@@ -35,16 +38,13 @@ Queue<Show>* perf_queue; // performances queue
 UNSH cust_count;
 UNSH perf_count;
 
+//Menus object
+Menus menu;
+
 /*FUNCTIONS*/
 
 //Programme info
 void progInfo();
-
-//Menus
-UNSH mainMenu();
-void custMenu();
-void perfMenu();
-void signMenu();
 
 //Customers addind/deleting
 void newCust();
@@ -62,8 +62,7 @@ bool print(Queue<T>*, int);
 void sign();
 void resign();
 
-//Some useful procedures
-void scroll(int);
+//When we're done
 void freeMemory();
 
 
@@ -73,29 +72,95 @@ int main(){
 
 	progInfo();
 
-	scroll(16);
+	menu.scroll(16);
 
       while (!b_quit){
-            decision = mainMenu();
+			b_quit1 = false;
+			
+            decision = menu.main();
+			menu.scroll(32);
+			
             switch (decision){
             case 1:
-                  custMenu(); break;
+				while (!b_quit1){
+                  decision = menu.cust();
+                  menu.scroll(32);
+				  
+                  switch (decision){
+					case 1:
+						newCust();
+						break;
+					case 2:
+						delCust();
+						break;
+					case 3:
+						if(!print<Customer> (cust_queue, cust_count)){
+							cout << "Nie ma zadnych klientow!" << endl;
+							menu.scroll(4);
+						}
+						break;
+					case 0:
+						b_quit1 = true;
+						break;
+				  }
+				}
+                break;
             case 2:
-                  perfMenu(); break;
+				while (!b_quit1){
+                  decision = menu.perf();
+                  menu.scroll(32);
+				  
+                  switch (decision){
+					case 1:
+						newPerf();
+						break;
+					case 2:
+						delPerf();
+						break;
+					case 3:
+						if(!print<Show> (perf_queue, perf_count)){
+							cout << "Nie ma zadnych przedstawien!" << endl;
+							menu.scroll(4);
+						}
+						break;
+					case 0:
+						b_quit1 = true;
+						break;
+					}
+				}
+				break;
 			case 3:
-				signMenu(); break;
+				while (!b_quit1){
+				  decision = menu.sign();
+				  menu.scroll(32);
+				  
+				  switch (decision){
+					case 1:
+						sign();
+						break;
+					case 2:
+						resign();
+						break;
+					case 0:
+						b_quit1 = true;
+						break;
+					}
+				}
+				break;
             case 0:
-                  b_quit=true; break;
+				menu.scroll(32);
+                  b_quit = true; 
+				  break;
             default:
                   break;
             }
       }
 
-	scroll(32);
+	menu.scroll(32);
 
       freeMemory();
 
-      cout << "Dziekuje za skorzystanie z programu" << endl << endl;
+      cout << "Dziekuje za skorzystanie z programu." << endl << endl;
       return 0;
 }
 
@@ -111,115 +176,6 @@ void progInfo(){
 	cout << "Kamil Zacharczuk, 03.2018" << endl;
 }
 
-/*Menus*/
-
-UNSH mainMenu(){
-      cout << "---MENU GLOWNE---" << endl;
-      cout << "1. Zarzadzaj klientami" << endl;
-      cout << "2. Zarzadzaj przedstawieniami" << endl;
-	  cout << "3. Zarzadzaj rezerwacjami" << endl;
-      cout << "0. Wyjdz z programu" << endl;
-
-      UNSH dec;
-      cin >> dec;
-
-	  scroll(32);
-
-      return dec;
-}
-
-void custMenu(){
-      bool b_cquit = false;
-      UNSH dec;
-
-      while(!b_cquit){
-            cout << "-ZARZADZANIE KLIENTAMI-" << endl;
-            cout << "1. Nowy klient" << endl;
-            cout << "2. Usun klienta" << endl;
-            cout << "3. Wyswietl liste klientow teatru" << endl;
-            cout << "0. Powrot do menu glownego" << endl;
-
-            cin >> dec;
-
-			scroll(32);
-
-            switch (dec){
-            case 1:
-                  newCust(); break;
-            case 2:
-                  delCust(); break;
-            case 3:
-                  print<Customer>(cust_queue, cust_count); break;
-            case 0:
-                  b_cquit = true; break;
-            default:
-                  break;
-            }
-      }
-
-	  scroll(4);
-}
-
-void perfMenu(){
-      bool b_pquit = false;
-      UNSH dec;
-
-      while (!b_pquit){
-            cout << "- ZARZADZANIE PRZEDSTAWIENIAMI -" << endl;
-            cout << "1. Nowe przedstawienie" << endl;
-            cout << "2. Usun przedstawienie" << endl;
-            cout << "3. Wyswietl liste przedstawien" << endl;
-            cout << "0. Powrot do menu glownego" << endl;
-
-            cin >> dec;
-
-			scroll(32);
-
-            switch (dec){
-            case 1:
-                  newPerf(); break;
-            case 2:
-                  delPerf(); break;
-            case 3:
-                  print<Show>(perf_queue, perf_count); break;
-            case 0:
-                  b_pquit = true; break;
-            default:
-                  break;
-            }
-      }
-
-	  scroll(4);
-}
-
-void signMenu(){
-	bool b_squit = false;
-	UNSH dec;
-
-	while (!b_squit){
-		cout << "- ZARZADZANIE REZERWACJAMI -" << endl;
-		cout << "1. Zapisywanie" << endl
-			<< "2. Wypisywanie" << endl
-			<< "0. Powrot do meun glownego" << endl;
-
-		cin >> dec;
-
-		scroll(32);
-		switch (dec){
-			case 1:
-				sign(); break;
-			case 2:
-				resign(); break;
-			case 0:
-				b_squit = true; break;
-			default:
-				continue; break;
-		}
-	}
-
-	scroll(4);
-}
-
 /*Customers menu*/
 
 //Add a new cust
@@ -233,7 +189,7 @@ void newCust(){
       cout << "Wprowadz nazwisko: "; cin >> new_surname;
       cout << "Wprowadz wiek: "; cin >> new_age;
 
-      scroll(32);
+      menu.scroll(32);
 
       Customer* new_cust = new Customer(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
       cout << "Utworzono klienta ";
@@ -253,7 +209,7 @@ void newCust(){
 
       *cust_queue+*new_cust; //attach the new cust to the queue
 
-	scroll(4);
+	menu.scroll(4);
 }
 
 //Del a cust
@@ -266,7 +222,7 @@ void delCust(){
 
             Customer* del_cust = cust_queue->getElement(del_id-1);
 
-			scroll(32);
+			menu.scroll(32);
 
             if (del_cust!=nullptr){
                   cout << "Klient "; del_cust->displayInfo(Customer::FORE);
@@ -292,7 +248,7 @@ void delCust(){
             cout << "Nie ma zadnych klientow!" << endl;
       }
 
-      scroll(4);
+      menu.scroll(4);
 }
 
 /*Performances menu*/
@@ -319,7 +275,7 @@ void newPerf()
       cout << "Wprowadz limit miejsc: "; cin >> new_seats_limit;
       cout << "Wprowadz ograniczenie wiekowe: "; cin >> new_min_age;
 
-      scroll(32);
+      menu.scroll(32);
 
 
       Show* new_perf = new Show(new_title, new_type-1, new_min_age, new_date[0], new_date[1], new_date[2], new_hour, new_seats_limit);
@@ -334,7 +290,7 @@ void newPerf()
 
       *perf_queue+*new_perf; //attach the new perf to the queue
 
-	  scroll(4);
+	  menu.scroll(4);
 }
 
 //Delete a show
@@ -348,7 +304,7 @@ void delPerf(){
             cin >> del_id;
             del_perf = perf_queue->getElement(del_id-1);
 
-			scroll(32);
+			menu.scroll(32);
 
             if (del_perf!=nullptr){
                   cout << "Przedstawienie \""; del_perf->displayInfo(Show::TITLE);
@@ -374,7 +330,7 @@ void delPerf(){
             cout << "Nie ma zadnych przedstawien!" << endl;
       }
 
-      scroll(4);
+      menu.scroll(4);
 }
 
 /*Printing the elements - template function*/
@@ -393,12 +349,10 @@ bool print(Queue<T>* queue, int count){
 		}
 	}
 	else{
-		cout << "Nie ma elementow w bazie danych!" << endl;
-		scroll(4);
 		return false;
 	}
 
-	scroll(4);
+	menu.scroll(4);
 	return true;
 }
 
@@ -417,7 +371,7 @@ void sign(){
 
 		temp_perf = perf_queue->getElement(perf_id-1);
 
-		scroll(32);
+		menu.scroll(32);
 
 		if (temp_perf!=nullptr){
 			cout << "Przedstawienie '"; temp_perf->displayInfo(Show::TITLE);
@@ -429,7 +383,7 @@ void sign(){
 			cout << "OK... ";
 			cin >> anything;
 
-			scroll(32);
+			menu.scroll(32);
 
 			if (print<Customer>(cust_queue, cust_count)){ //Print the customers list; if it's empty, say it and return
 				int cust_id;
@@ -440,7 +394,7 @@ void sign(){
 
 				temp_cust = cust_queue->getElement(cust_id-1);
 
-				scroll(32);
+				menu.scroll(32);
 
 				if (temp_cust!=nullptr){
 					if (temp_perf->newBuyer(*temp_cust)){
@@ -454,13 +408,19 @@ void sign(){
 					cout << "Nie ma klienta o takim numerze." << endl;
 				}
 			}
+			else{
+				cout << "Nie ma zadnych klientow!" << endl;
+			}
 		}
 		else{
 			cout << "Nie ma takiego przedstawienia!" << endl;
 		}
 	}
+	else{
+		cout << "Nie ma zadnych przedstawien!" << endl;
+	}
 
-	scroll(4);
+	menu.scroll(4);
 }
 
 //Unsubscribe a customer from a show
@@ -475,7 +435,7 @@ void resign(){
 
 		temp_perf = perf_queue->getElement(perf_id-1);
 
-		scroll(32);
+		menu.scroll(32);
 
 		if (temp_perf!=nullptr){
 			cout << "Przedstawienie '"; temp_perf->displayInfo(Show::TITLE);
@@ -487,20 +447,20 @@ void resign(){
 			cout << "OK... ";
 			cin >> anything;
 
-			scroll(32);
+			menu.scroll(32);
 
 			if (temp_perf->displayAudience()){ //Print the list of the members of the show's audience; if it's empty, say it and return
 				int cust_id;
 				Customer* temp_cust;
 
-                        scroll(2);
+                        menu.scroll(2);
 
 				cout << "Wybierz numer widza, ktorego chcesz wypisac. " << endl;
 				cin >> cust_id;
 
 				temp_cust = temp_perf->getAudienceMember(cust_id);
 
-				scroll(32);
+				menu.scroll(32);
 
 				if (temp_cust!=nullptr){
 					if (temp_perf->delBuyer(*temp_cust)){
@@ -515,25 +475,22 @@ void resign(){
 				}
 			}
 			else{
-                        cout << "Brak zapisanych widzow na to przedstawienie!" << endl;
+				cout << "Brak zapisanych widzow na to przedstawienie!" << endl;
 			}
 		}
 		else{
 			cout << "Nie ma przedstawienia o takim numerze." << endl;
 		}
 	}
+	else{
+		cout << "Nie ma zadnych przedstawien!" << endl;
+	}
 
-	scroll(4);
+	menu.scroll(4);
 }
 
 
 /*Other functions*/
-
-//Clean the screen
-void scroll(int n){
-      for (int i=0; i<n; i++){
-            cout << endl;}
-}
 
 //Free any memory allocated during the programme
 void freeMemory(){
@@ -541,7 +498,7 @@ void freeMemory(){
 	//Free the memory used by customers queue
       if (cust_count){
             Customer* temp_cust;
-            for (int i=0; i<cust_count; i++){
+            for (UNSH i=0; i<cust_count; i++){
                   temp_cust = cust_queue->getElement(i);
                   if (temp_cust!=nullptr){
                         delete temp_cust;
@@ -557,7 +514,7 @@ void freeMemory(){
 	//Free the memory used by shows queue
       if (perf_count){
             Show* temp_perf;
-            for (int i=0; i<perf_count; i++){
+            for (UNSH i=0; i<perf_count; i++){
                   temp_perf = perf_queue->getElement(i);
                   if (temp_perf!=nullptr){
                         delete temp_perf;
