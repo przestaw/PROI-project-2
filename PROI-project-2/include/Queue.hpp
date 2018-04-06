@@ -1,16 +1,19 @@
 /*
- * Queue.hpp - template linked list queue to contain any type of data
+ * Queue.hpp
  *
- * - Laboratory project 2 - "Theater", PROI
- * - Tutor: dr inż. Wiktor Kuśmirek
- *
+ * Class Queue - a template linked list queue to contain any type of data: 
  * - Able to:
  *  > attach, detach an element
  *  > return data containted by a specific node
  *  > check if an element is containted in the queue
- * - Version: 27.03.2018, Kamil Zacharczuk
+ * - Contains its own custom iterator
+ * ^ DECLARATION AND DEFINITION
+ *
+ * PROI, Lab project 2: "Theater"
+ * Tutor: dr inż. Wiktor Kuśmirek
+ * 
+ * Version: 06.04.2018, Kamil Zacharczuk
  */
-
 #ifndef _QUEUE_HPP_
 #define _QUEUE_HPP_
 
@@ -28,14 +31,18 @@ class Queue
 			T* pointed;
 			struct s_Node* next;
 		} Node;
-
+		
+		/*the iterator for the queue*/
 		class CustomIterator {
 			public:
 				Node* itr;
-
+				
+				/*Cons&des*/
 				CustomIterator() : itr(nullptr) {}
 				CustomIterator(Node* temp_node) : itr(temp_node) {}
-
+				~CustomIterator() {}
+				
+				/*Operators*/
 				CustomIterator& operator++ (){ //pre-incr
 					assert (itr!=nullptr);
 
@@ -103,8 +110,9 @@ class Queue
 template <typename T>
 typename Queue<T>::Node* Queue<T>::getPrecedingNode(T & el){
 			//WARNING: this function will not check if the head is the node you are looking for
+			//You must check if the head is initialized (not will nullptr) BEFORE calling this function (memory leak otherwise)
 
-                 CustomIterator iter(this->head);
+                 CustomIterator iter(this->head); //Create the iterator to iterate through the list
 			for (; iter.itr->next!=nullptr; iter++){
 				if (iter.itr->next->pointed == &el){ //WARNING: type T must have the operator == defined
 				return iter.itr;} //return the node preceding the matching one
@@ -149,7 +157,7 @@ bool Queue<T>::operator- (T & el) //detach an element
 	Node* del_node;
 	////
 
-	if (this->head->pointed == &el){ //if the head points to the element we want to detach
+	if (this->head->pointed == &el){ //if the head points at the element we want to detach
 									//WARNING: type T has to have operator == defined
 		del_node = this->head;
 
@@ -187,7 +195,7 @@ bool Queue<T>::operator- (T & el) //detach an element
 
 ////
 template <typename T>
-T* Queue<T>::getElement (int n){ //take data the n-th node points at
+T* Queue<T>::getElement (int n){ //take the data the n-th node points at
 	int i = 0;
 
 	CustomIterator iter(this->head);
@@ -202,7 +210,7 @@ T* Queue<T>::getElement (int n){ //take data the n-th node points at
 		return nullptr;
 	}
 
-	return &(*iter);
+	return &(*iter); //operator * is here used as overloaded for the class CustomIterator
 }
 
 ////
@@ -215,7 +223,7 @@ bool Queue<T>::findElement (T & el){ //check if the element is containted in the
 		}
 	}
 
-	return false;
+	return false; //reached the end of the queue and didn't find the elemnet
 }
 
 
