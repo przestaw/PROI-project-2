@@ -11,6 +11,9 @@
  * PROI, Lab project 2: 'Theater'
  * Tutor: dr inz. Wiktor Kuśmirek
  * Version 06.04.18, Kamil Zacharczuk
+ * PROI, Lab project 3: 'Theater'
+ * Tutor: dr inz. Wiktor Kusmirek
+ * Przemysław Stawczyk
  */
 
 #include <iostream>
@@ -35,8 +38,8 @@ Queue<Customer>* cust_queue; //customers queue
 Queue<Show>* perf_queue; // performances queue
 
 //Counting
-UNSH cust_count;
-UNSH perf_count;
+uint cust_count;
+uint perf_count;
 
 //Menus object
 Menus menu;
@@ -76,16 +79,16 @@ int main(){
 
       while (!b_quit){
 			b_quit1 = false;
-			
+
             decision = menu.main();
 			menu.scroll(32);
-			
+
             switch (decision){
             case 1:
 				while (!b_quit1){
                   decision = menu.cust();
                   menu.scroll(32);
-				  
+
                   switch (decision){
 					case 1:
 						newCust();
@@ -109,7 +112,7 @@ int main(){
 				while (!b_quit1){
                   decision = menu.perf();
                   menu.scroll(32);
-				  
+
                   switch (decision){
 					case 1:
 						newPerf();
@@ -133,7 +136,7 @@ int main(){
 				while (!b_quit1){
 				  decision = menu.sign();
 				  menu.scroll(32);
-				  
+
 				  switch (decision){
 					case 1:
 						sign();
@@ -149,7 +152,7 @@ int main(){
 				break;
             case 0:
 				menu.scroll(32);
-                  b_quit = true; 
+                  b_quit = true;
 				  break;
             default:
                   break;
@@ -183,7 +186,7 @@ void newCust(){
 
       string new_forename;
       string new_surname;
-      UNSH new_age;
+      uint new_age;
 
       cout << "Wprowadz imie: "; cin >> new_forename;
       cout << "Wprowadz nazwisko: "; cin >> new_surname;
@@ -216,7 +219,7 @@ void newCust(){
 void delCust(){
 
       if (cust_count){
-            UNSH del_id;
+            uint del_id;
 
             cout << "Wprowadz numer klienta na liscie: "; cin >> del_id;
 
@@ -258,11 +261,11 @@ void newPerf()
 {
 
       string new_title;
-      UNSH new_type;
-      UNSH new_min_age;
-      UNSH new_date[3];
+      uint new_type;
+      uint new_min_age;
+      uint new_date[3];
       double new_hour;
-      UNSH new_seats_limit;
+      uint new_seats_limit;
 
       cout << "Wprowadz tytul: "; cin >> new_title;
       cout << "Wybierz rodzaj: 1. Dramat, 2. Komedia, 3. Musical 4. Opera, 5. Pantomima" << endl;
@@ -297,7 +300,7 @@ void newPerf()
 void delPerf(){
 
       if (perf_count){
-            UNSH del_id;
+            uint del_id;
             Show* del_perf;
 
             cout << "Wprowadz numer przedstawienia na liscie: ";
@@ -498,7 +501,7 @@ void freeMemory(){
 	//Free the memory used by customers queue
       if (cust_count){
             Customer* temp_cust;
-            for (UNSH i=0; i<cust_count; i++){
+            for (uint i=0; i<cust_count; i++){
                   temp_cust = cust_queue->getElement(i);
                   if (temp_cust!=nullptr){
                         delete temp_cust;
@@ -514,7 +517,7 @@ void freeMemory(){
 	//Free the memory used by shows queue
       if (perf_count){
             Show* temp_perf;
-            for (UNSH i=0; i<perf_count; i++){
+            for (uint i=0; i<perf_count; i++){
                   temp_perf = perf_queue->getElement(i);
                   if (temp_perf!=nullptr){
                         delete temp_perf;

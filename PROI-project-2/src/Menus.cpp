@@ -6,9 +6,12 @@
  *
  * Lab project 2: 'Theater'
  * Tutor: dr inz. Wiktor Kusmirek
- * Version 06.04.18, Kamil Zacharczuk 
+ * Version 06.04.18, Kamil Zacharczuk
+ * PROI, Lab project 3: 'Theater'
+ * Tutor: dr inz. Wiktor Kusmirek
+ * Przemysław Stawczyk
  */
- 
+
 #include <iostream>
 #include "../include/Menus.hpp"
 #include "../include/Customer.hpp"
@@ -19,6 +22,52 @@
 Menus::Menus() {}
 Menus::~Menus() {}
 
+uint getOption(uint min,uint max)
+{
+  uint input;
+  do{
+    std::cout << "\nChoose option :"
+    std::cin.clear();
+    std::cin.sync();
+    std::cin >> input;
+  }while(std::cin.fail());
+}
+
+std::ostream putOptions(Options which)
+{
+  std::ostream str;
+  switch (which) {
+    case Main:
+      str << "---MENU GLOWNE---\n"
+          << "1. Zarzadzaj klientami\n"
+          << "2. Zarzadzaj przedstawieniami\n"
+          << "3. Zarzadzaj rezerwacjami\n"
+          << "0. Wyjdz z programu\n"
+      break;
+    case Customers:
+      str << "-ZARZADZANIE KLIENTAMI-\n"
+          << "1. Nowy klient\n"
+          << "2. Usun klienta\n"
+          << "3. Wyswietl liste klientow teatru\n"
+          << "0. Powrot do menu glownego\n"
+      break;
+    case Performances:
+      str << "- ZARZADZANIE PRZEDSTAWIENIAMI -\n"
+          << "1. Nowe przedstawienie\n"
+          << "2. Usun przedstawienie\n"
+          << "3. Wyswietl liste przedstawien\n"
+          << "0. Powrot do menu glownego\n"
+      break;
+    case Reservations:
+      str << "- ZARZADZANIE REZERWACJAMI -\n"
+    	    << "1. Zapisywanie\n"
+    	    << "2. Wypisywanie\n"
+    	    << "0. Powrot do meun glownego\n"
+      break;
+    }
+  return str;
+}
+
 //Cls
 void Menus::scroll(int n) const{
 	for (int i=0; i<n; i++){
@@ -27,58 +76,25 @@ void Menus::scroll(int n) const{
 }
 
 //Main menu
-UNSH Menus::main() const{
-      std::cout << "---MENU GLOWNE---" << std::endl;
-      std::cout << "1. Zarzadzaj klientami" << std::endl;
-      std::cout << "2. Zarzadzaj przedstawieniami" << std::endl;
-	  std::cout << "3. Zarzadzaj rezerwacjami" << std::endl;
-      std::cout << "0. Wyjdz z programu" << std::endl;
-
-      UNSH dec;
-      std::cin >> dec;
-
-      return dec;
+uint Menus::main() const{
+  std::cout << getOptions(Main);
+  return getOption(0,3);
 }
 
 //Customer
-UNSH Menus::cust() {
-            UNSH dec;
-
-            std::cout << "-ZARZADZANIE KLIENTAMI-" << std::endl;
-            std::cout << "1. Nowy klient" << std::endl;
-            std::cout << "2. Usun klienta" << std::endl;
-            std::cout << "3. Wyswietl liste klientow teatru" << std::endl;
-            std::cout << "0. Powrot do menu glownego" << std::endl;
-
-            std::cin >> dec;
-
-			return dec;
+uint Menus::cust() {
+  std::cout << getOptions(Customers);
+	return getOption(0,3);
 }
 
 //Performance
-UNSH Menus::perf(){
-      UNSH dec;
-            std::cout << "- ZARZADZANIE PRZEDSTAWIENIAMI -" << std::endl;
-            std::cout << "1. Nowe przedstawienie" << std::endl;
-            std::cout << "2. Usun przedstawienie" << std::endl;
-            std::cout << "3. Wyswietl liste przedstawien" << std::endl;
-            std::cout << "0. Powrot do menu glownego" << std::endl;
-
-            std::cin >> dec;
-
-			return dec;
+uint Menus::perf(){
+  std::cout << getOptions(Performances);
+	return getOption(0,3);
 }
 
 //Subscriptions
-UNSH Menus::sign(){
-	UNSH dec;
-		std::cout << "- ZARZADZANIE REZERWACJAMI -" << std::endl;
-		std::cout << "1. Zapisywanie" << std::endl
-			<< "2. Wypisywanie" << std::endl
-			<< "0. Powrot do meun glownego" << std::endl;
-
-		std::cin >> dec;
-
-		return dec;
+uint Menus::sign(){
+  std::cout << getOptions(Reservations);
+	return getOption(0,2);
 }
-

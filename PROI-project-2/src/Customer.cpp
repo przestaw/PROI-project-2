@@ -7,9 +7,11 @@
  * PROI, Lab project 2: 'Theater'
  * Tutor: dr inz. Wiktor Kusmirek
  * Version: 06.04.2018, Kamil Zacharczuk
+ * PROI, Lab project 3: 'Theater'
+ * Tutor: dr inz. Wiktor Kusmirek
+ * Przemysław Stawczyk
  */
- 
-#include <iostream>
+
 #include <ctime>
 #include <cstdlib>
 
@@ -21,20 +23,20 @@
 /*CONSTRUCTORS*/
 
 //// Parameters
-Customer::Customer(std::string p_forename, std::string p_surname, UNSH p_age){
-      this->forename = p_forename;
-      this->surname = p_surname;
+Customer::Customer(std::string p_forename, std::string p_surname, uint p_age){
+  this->forename = p_forename;
+  this->surname = p_surname;
 	this->age = p_age;
 }
 
 //// Default
 Customer::Customer()
 {
-      std::srand(std::time(nullptr));
+  std::srand(std::time(nullptr));
 
-      this->forename = "Jan";
-      this->surname = "Kowalski";
-      this->age = rand()%77+13;
+  this->forename = "Jan";
+  this->surname = "Kowalski";
+  this->age = rand()%77+13;
 }
 
 /*DESTRUCTOR*/
@@ -53,18 +55,39 @@ bool Customer::operator== (Customer & another) const{
 
 //// Precised info
 void Customer::displayInfo (CUS_INFO info) const{
-      switch (info){
-      case FORE: std::cout << forename; break;
-      case SUR: std::cout << surname; break;
-      case AGE: std::cout << age; break;
-      default: std::cout << "unprecised info"; break;
-      }
+      std::cout << getInfo(info);
 }
 
 //// All info
-void Customer::displayInfo() const{
-      std::cout << "| Imie: "; displayInfo(FORE);
-      std::cout << "| Nazwisko: "; displayInfo(SUR);
-      std::cout << "| Wiek: "; displayInfo(AGE);
-      std::cout << "|" << std::endl;
+void Customer::displayInfo() {
+      std::cout << getInfo();
+}
+
+//// Precised info
+std::iostream Customer::getInfo (CUS_INFO info) const{
+  std::iostream str;
+      switch (info){
+      case FORE:
+        str << forename;
+        break;
+      case SUR:
+        str << surname;
+        break;
+      case AGE:
+        str << age;
+        break;
+      default:
+        throw "unprecised info[fun=Customer::getInfo(CUS_INFO)]";
+        break;
+      }
+  return str;
+}
+
+//// All info
+std::iostream Customer::getInfo() {
+  std::iostream str;
+      str << "| Imie: " << getInfo(FORE)
+          << "| Nazwisko: " << getInfo(SUR);
+          << "| Wiek: " << getInfo(AGE);
+          << "|\n;
 }

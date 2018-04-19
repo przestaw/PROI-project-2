@@ -1,7 +1,7 @@
 /*
  * Queue.hpp
  *
- * Class Queue - a template linked list queue to contain any type of data: 
+ * Class Queue - a template linked list queue to contain any type of data:
  * - Able to:
  *  > attach, detach an element
  *  > return data containted by a specific node
@@ -11,8 +11,11 @@
  *
  * PROI, Lab project 2: "Theater"
  * Tutor: dr inż. Wiktor Kuśmirek
- * 
+ *
  * Version: 06.04.2018, Kamil Zacharczuk
+ * PROI, Lab project 3: 'Theater'
+ * Tutor: dr inz. Wiktor Kusmirek
+ * Przemysław Stawczyk
  */
 #ifndef _QUEUE_HPP_
 #define _QUEUE_HPP_
@@ -28,42 +31,41 @@ class Queue
     private:
 		/*struct type Node - the node of the list*/
 		typedef struct s_Node {
-			T* pointed;
-			struct s_Node* next;
-		} Node;
-		
-		/*the iterator for the queue*/
-		class CustomIterator {
-			public:
-				Node* itr;
-				
-				/*Cons&des*/
-				CustomIterator() : itr(nullptr) {}
-				CustomIterator(Node* temp_node) : itr(temp_node) {}
-				~CustomIterator() {}
-				
-				/*Operators*/
-				CustomIterator& operator++ (){ //pre-incr
-					assert (itr!=nullptr);
+		T* pointed;
+		struct s_Node* next;
+} Node;
 
-					itr = itr->next;
-					return *this;
-				}
+/*the iterator for the queue*/
+class CustomIterator {
+	public:
+	Node* itr;
 
-				CustomIterator operator++ (int){ //post-incr
-					assert (itr!=nullptr);
+/*Cons&des*/
+  CustomIterator() : itr(nullptr) {}
 
-					CustomIterator temp_iterator(*this);
-					itr = itr->next;
-					return temp_iterator;
-				}
+  CustomIterator(Node* temp_node) : itr(temp_node) {}
 
-				T& operator* () const{ //data
-					assert (itr!=nullptr);
+  ~CustomIterator() {}
 
-					return *itr->pointed;
-				}
-		};
+/*Operators*/
+  CustomIterator& operator++ (){ //pre-incr
+    assert (itr!=nullptr);
+    itr = itr->next;
+    return *this;
+  }
+
+  CustomIterator operator++ (int){ //post-incr
+    assert (itr!=nullptr);
+    CustomIterator temp_iterator(*this);
+    itr = itr->next;
+    return temp_iterator;
+  }
+
+  T& operator* () const{ //data
+	 assert (itr!=nullptr);
+	 return *itr->pointed;
+  }
+};
 
 		/*Fields*/
 		//The first and the last node of the list
@@ -76,7 +78,7 @@ class Queue
 	public:
 		/*Cons&des*/
 		Queue(){
-		    this->head = nullptr;
+		  this->head = nullptr;
 			this->tail = nullptr;
 		}
 
@@ -228,4 +230,3 @@ bool Queue<T>::findElement (T & el){ //check if the element is containted in the
 
 
 #endif //_QUEUE_HPP_
-
