@@ -15,6 +15,7 @@
 #define _MENUS_HPP_
 
 #include "Queue.hpp"
+#include <sstream>
 
 #define uint_fast16_t uint;
 
@@ -22,19 +23,19 @@
 class Menus
 {
 	public:
-		enum Options{ Main, Customers, Performances, Reservations};
+		typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS}OPTIONS;
 		Menus();
 		~Menus();
 		//Helpful cls function
-		void scroll(int) const;
+		void scroll(int) const; //consider delete -> unnescesary
 		//Menus in which we choose further path
 		uint main() const; // for compatibility - to delete
 		uint cust(); // for compatibility - to delete
 		uint perf(); // for compatibility - to delete
 		uint sign(); // for compatibility - to delete
 	private:
-		uint getOption(uint min,uint max);
-		std::ostream putOptions(Options which);
+		static uint getOption(uint min,uint max);
+		static std::ostringstream putOptions(OPTIONS which) ;
 };
 
 #endif //_MENUS_HPP_

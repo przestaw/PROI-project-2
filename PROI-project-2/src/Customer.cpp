@@ -15,15 +15,16 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "../include/Customer.hpp"
-#include "../include/Queue.hpp"
+#include "Customer.hpp"
+#include "Queue.hpp"
 
 /****CLASS CUSTOMER****/
 
 /*CONSTRUCTORS*/
 
 //// Parameters
-Customer::Customer(std::string p_forename, std::string p_surname, uint p_age){
+Customer::Customer(std::string p_forename, std::string p_surname, uint p_age)
+{
   this->forename = p_forename;
   this->surname = p_surname;
 	this->age = p_age;
@@ -44,7 +45,8 @@ Customer::~Customer() {}
 
 
 /*Operator == overloading*/
-bool Customer::operator== (Customer & another) const{
+bool Customer::operator== (Customer & another) const
+{
 	return
 		this->forename==another.forename &&
 		this->surname==another.surname &&
@@ -53,19 +55,29 @@ bool Customer::operator== (Customer & another) const{
 
 /*METHODS*/
 
+uint Customer::rate(Show *show_r)
+{
+  int rate = rand()%10;
+  show_r->add_rate(rate);
+  return rate;
+}
+
 //// Precised info
-void Customer::displayInfo (CUS_INFO info) const{
-      std::cout << getInfo(info);
+void Customer::displayInfo (CUS_INFO info)
+{
+      std::cout << getInfo(info).rdbuf();
 }
 
 //// All info
-void Customer::displayInfo() {
-      std::cout << getInfo();
+void Customer::displayInfo()
+{
+      std::cout << getInfo().rdbuf();
 }
 
 //// Precised info
-std::iostream Customer::getInfo (CUS_INFO info) const{
-  std::iostream str;
+std::ostringstream Customer::getInfo ( CUS_INFO info)
+{
+    std::ostringstream str;
       switch (info){
       case FORE:
         str << forename;
@@ -76,6 +88,9 @@ std::iostream Customer::getInfo (CUS_INFO info) const{
       case AGE:
         str << age;
         break;
+      case TYPE:
+        str << sex;
+        break;
       default:
         throw "unprecised info[fun=Customer::getInfo(CUS_INFO)]";
         break;
@@ -84,10 +99,13 @@ std::iostream Customer::getInfo (CUS_INFO info) const{
 }
 
 //// All info
-std::iostream Customer::getInfo() {
-  std::iostream str;
-      str << "| Imie: " << getInfo(FORE)
-          << "| Nazwisko: " << getInfo(SUR);
-          << "| Wiek: " << getInfo(AGE);
-          << "|\n;
+std::ostringstream Customer::getInfo()
+{
+  std::ostringstream str;
+      str << "| Imie: " << getInfo(FORE).rdbuf()
+          << "| Nazwisko: " << getInfo(SUR).rdbuf()
+          << "| Wiek: " << getInfo(AGE).rdbuf()
+          << "| Typ: " << getInfo(TYPE).rdbuf()
+          << "|\n";
+  return str;
 }

@@ -13,32 +13,28 @@
  */
 
 #include <cstdlib>
-#include "../include/Show.hpp"
-#include "../include/Customer.hpp"
-#include "../include/Queue.hpp"
-
+#include "Show.hpp"
+#include "Customer.hpp"
+#include "Queue.hpp"
 
 /****CLASS SHOW****/
 
 /*CONSTRUCTOR*/
 
 ////
-Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_month, uint p_day, double p_hour, uint p_seats_limit){
-      title = p_title;
-
-	min_age = p_min_age;
-
-	date[0] = p_year;
-	date[1] = p_month;
-	date[2] = p_day;
+Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_month, uint p_day, double p_hour, uint p_seats_limit)
+  :title(p_title), min_age(p_min_age),
+  seats_limit(p_seats_limit), seats_taken(0),
+  nr_of_rates(0), rate(0)
+{
+	date[0] = p_year; //exeption needed
+	date[1] = p_month; //exeption needed
+	date[2] = p_day; //exeption needed
 
 	hour = p_hour;
 	if (p_hour<0.0 || hour >= 24.0){
-		hour = 0.0;
+		hour = 0.0; //exeption needed
 	}
-
-	seats_limit = p_seats_limit;
-	seats_taken = 0;
 
 	switch (p_type)
   {
@@ -65,13 +61,20 @@ Show::~Show(){}
 
 /*METHODS*/
 
-//// Precised info
-void Show::displayInfo(SHOW_INFO info) const{
-	std::cout << getInfo(info);
+void Show::add_rate(uint rate_n)
+{
+  rate = (rate_n + rate* nr_of_rates)/(++nr_of_rates);
 }
 
-std::iostream Show::getInfo(SHOW_INFO info) const{
-	std::iostream str
+//// Precised info
+void Show::displayInfo(SHOW_INFO info) const
+{
+	std::cout << getInfo(info).rdbuf();
+}
+
+std::ostringstream Show::getInfo(SHOW_INFO info) const
+{
+	std::ostringstream str;
 	switch (info){
     case TITLE:
 			str << title;
@@ -112,6 +115,8 @@ std::iostream Show::getInfo(SHOW_INFO info) const{
 		case SEATS_TAKEN:
 			str << seats_taken;
 			break;
+    case RATE:
+      str << rate;
 		default:
 			throw "unprecised info[fun=Show::getInfo(SHOW_INFO)]";
 			break;
@@ -120,55 +125,65 @@ std::iostream Show::getInfo(SHOW_INFO info) const{
 }
 
 //// All info
-void Show::displayInfo() const{
-    std::cout << getInfo;
+void Show::displayInfo() const
+{
+    std::cout << getInfo().rdbuf();
 }
 
-std::iostream Show::getInfo() const{
-	std::iostream
-	str << "|| Tytul: " << this->getInfo(TITLE) << '\n'
-	 		<< "|| Gatunek: " << this->getInfo(TYPE)
-	 		<< "|| Data: " << this->getInfo(DATE)
-	 		<< "|| Godzina: " << this->getInfo(HOUR)  << '\n'
-	 		<< "|| Minimalny wiek: " << this->getInfo(MIN_AGE)
-	 		<< "|| Liczba miejsc: " << this->getInfo(SEATS_LIMIT)
-	 		<< "|| Zajetych: " << this->getInfo(SEATS_TAKEN) << '\n';
+std::ostringstream Show::getInfo() const
+{
+	std::ostringstream str;
+	str << "|| Tytul: " << this->getInfo(TITLE).rdbuf() << '\n'
+	 		<< "|| Gatunek: " << this->getInfo(TYPE).rdbuf()
+	 		<< "|| Data: " << this->getInfo(DATE).rdbuf()
+	 		<< "|| Godzina: " << this->getInfo(HOUR).rdbuf()  << '\n'
+	 		<< "|| Minimalny wiek: " << this->getInfo(MIN_AGE).rdbuf()
+	 		<< "|| Liczba miejsc: " << this->getInfo(SEATS_LIMIT).rdbuf()
+	 		<< "|| Zajetych: " << this->getInfo(SEATS_TAKEN).rdbuf() << '\n'
+      << "|| Ocena: " << this->getInfo(RATE).rdbuf() << '\n';
 	return str;
 }
 
 
 //// Audience members list
 bool Show::displayAudience(){
-	if (this->audience.getElement(0)==nullptr){
+	if (this->audience.getElement(0)==nullptr)
+  {
 		return false;
 	}
 
-  std::cout << getAudience();
+  std::cout << getAudience().rdbuf();
 
 	return true;
 }
 
-std::iostream Show::getAudience(){
+std::ostringstream Show::getAudience()
+{
 	Customer* aud_member = this->audience.getElement(0);
-	std::iostream str;
+	std::ostringstream str;
 
 	str << "^LISTA WIDZOW PRZEDSTAWIENIA^\n";
 
 	if (aud_member==nullptr){
-		str << " -- EMPTY -- "
+		str << " -- EMPTY -- ";
 		return str;
 	}
 
 	for (int i=1; aud_member!=nullptr; i++){
-		str << i << ". " << aud_member->getInfo(Customer::FORE)
-				<< " " << aud_member->getInfo(Customer::SUR) << '\n';
+		str << i << ". " << aud_member->getInfo(Customer::FORE).rdbuf()
+				<< " " << aud_member->getInfo(Customer::SUR).rdbuf() << '\n';
 		aud_member = this->audience.getElement(i);
 	}
 	return str;
 }
+
+
 // - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ TODO: newBuyer
+
+
 //// Add a new audience member
-bool Show::newBuyer(Customer & buyer){
+bool Show::newBuyer(Customer & buyer)
+{
 
 	bool b_success = true;
 
@@ -192,7 +207,8 @@ bool Show::newBuyer(Customer & buyer){
 }
 
 //// Delete an audience member
-bool Show::delBuyer(Customer & buyer){
+bool Show::delBuyer(Customer & buyer)
+{
 
 	if (!(this->audience-buyer))
 		return false;
@@ -203,6 +219,7 @@ bool Show::delBuyer(Customer & buyer){
 }
 
 //// Return a specific audience member
-Customer* Show::getAudienceMember(int cust_id){
+Customer* Show::getAudienceMember(int cust_id)
+{
       return this->audience.getElement(cust_id-1);
 }

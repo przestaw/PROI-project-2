@@ -15,8 +15,12 @@
 #define _SHOW_HPP_
 
 #include <string>
-#include "../include/Customer.hpp"
-#include "../include/Queue.hpp"
+#include "Customer.hpp"
+#include "Queue.hpp"
+
+#define uint_fast16_t uint;
+
+class Customer;
 
 class Show
 {
@@ -25,7 +29,7 @@ class Show
 	     DRAMA, COMEDY, MUSICAL, OPERA, PANTOMIME} SHOW_TYPE;
 
 		typedef enum {
-		    TITLE, TYPE, MIN_AGE, DATE, HOUR, SEATS_LIMIT, SEATS_TAKEN} SHOW_INFO;
+		    TITLE, TYPE, MIN_AGE, DATE, HOUR, SEATS_LIMIT, SEATS_TAKEN, RATE} SHOW_INFO;
 
 	private:
 		std::string title;
@@ -40,18 +44,23 @@ class Show
 		uint seats_limit;
 		uint seats_taken;
 
+    uint nr_of_rates; //przestaw
+    uint rate;
+
 		Queue<Customer> audience;
 	public:
 		/*Constructors & destructor*/
 		Show(std::string, int, uint, uint, uint, uint, double, uint);
 		~Show();
 
+    void add_rate(uint);
+
 		void displayInfo (SHOW_INFO) const; // for compatibility - to delete
 		void displayInfo() const; // for compatibility - to delete
-		std::iostream getInfo(SHOW_INFO) const;
-    std::iostream getInfo() const;
+		std::ostringstream getInfo(SHOW_INFO) const;
+    std::ostringstream getInfo() const;
 		bool displayAudience(); // for compatibility - to delete
-    std::iostream getAudience(); 
+    std::ostringstream getAudience();
 
 		//Subscribing and unsubscribing an audience member
 		bool newBuyer(Customer&);
