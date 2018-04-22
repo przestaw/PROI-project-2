@@ -14,8 +14,11 @@
 #ifndef _MENUS_HPP_
 #define _MENUS_HPP_
 
+#include "Customer.hpp"
+#include "Show.hpp"
 #include "Queue.hpp"
 #include <sstream>
+#include <iostream>
 
 #define uint_fast16_t uint;
 
@@ -35,27 +38,27 @@ private:
 	uint cust_count;
 	uint perf_count;
 public:
-		typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS}OPTIONS;
-		Menus();
-		~Menus();
-		//Helpful cls function
-		void scroll(int) const; //consider delete -> unnescesary
-		//Menus in which we choose further path
-		uint main() const; // for compatibility - to delete
-		uint cust(); // for compatibility - to delete
-		uint perf(); // for compatibility - to delete
-		uint sign(); // for compatibility - to delete
-		//Moved from main file ~przestaw
-		void init(); //TODO: remove cin/cout/endl
-		void newCust();
-		void delCust();
-		void newPerf();
-		void delPerf();
-		void sign();
-		void resign();
+	typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS}OPTIONS;
+	Menus();
+	~Menus();
+	//Helpful cls function
+	void scroll(int) const; //consider delete -> unnescesary
+	//Menus in which we choose further path
+	uint main(std::istream&, std::ostream&) const; // for compatibility - to delete
+	uint cust(std::istream&, std::ostream&); // for compatibility - to delete
+	uint perf(std::istream&, std::ostream&); // for compatibility - to delete
+	uint sign(std::istream&, std::ostream&); // for compatibility - to delete
+	//Moved from main file ~przestaw
+	void init(std::istream&, std::ostream&); //TODO: remove cin/cout/endl
+	void newCust(std::istream&, std::ostream&);
+	void delCust(std::istream&, std::ostream&);
+	void newPerf(std::istream&, std::ostream&);
+	void delPerf(std::istream&, std::ostream&);
+	void Sign(std::istream&, std::ostream&);
+	void Resign(std::istream&, std::ostream&);
 private:
-		static uint getOption(uint min,uint max);
-		static std::stringstream putOptions(OPTIONS which);
+	static uint getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out);
+	static std::stringstream putOptions(OPTIONS which);
 };
 
 #endif //_MENUS_HPP_

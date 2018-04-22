@@ -39,7 +39,7 @@ int main()
 {
 	progInfo();
 	Menus theater_1;
-	theater_1.init();
+	theater_1.init(cin, cout);
 
   return 0;
 }
@@ -62,10 +62,10 @@ void progInfo()
 
 /*Printing the elements - template function*/
 template <typename T>
-bool print(Queue<T>* queue, int count){
+bool print(Queue<T>* queue, int count)
+{
 	if (count){
 		T* temp_el;
-
 		cout << "~~~Lista elementow bazy danych~~~" << endl;
 		for (int i = 0; i<count; i++){
 			cout << "NUMER " << i+1 << "/" << endl;
@@ -78,7 +78,5 @@ bool print(Queue<T>* queue, int count){
 	else{
 		return false;
 	}
-
-	menu.scroll(4);
 	return true;
 }
