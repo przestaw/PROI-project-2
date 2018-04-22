@@ -48,8 +48,8 @@ public:
 
 		void displayInfo (CUS_INFO); // for compatibility - to delete
 		void displayInfo(); // for compatibility - to delete
-		std::ostringstream getInfo(CUS_INFO);
-		std::ostringstream getInfo();
+		std::stringstream getInfo(CUS_INFO);
+		std::stringstream getInfo();
 		inline uint tellAge() const { return this->age; }
 };
 

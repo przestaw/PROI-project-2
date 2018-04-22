@@ -72,30 +72,32 @@ void Show::displayInfo(SHOW_INFO info) const
 	std::cout << getInfo(info).rdbuf();
 }
 
-std::ostringstream Show::getInfo(SHOW_INFO info) const
+std::stringstream Show::getInfo(SHOW_INFO info) const
 {
-	std::ostringstream str;
-	switch (info){
+	std::stringstream str;
+	switch (info)
+  {
     case TITLE:
 			str << title;
 			break;
 		case TYPE:
-			switch (type){
-			      case DRAMA:
-							str << "Dramat";
-							break;
-			      case COMEDY:
-							str << "Komedia";
-							break;
-			      case MUSICAL:
-							str << "Musical";
-							break;
-			      case OPERA:
-							str << "Opera";
-							break;
-			      case PANTOMIME:
-							str << "Pantomima";
-							break;
+			switch (type)
+      {
+	      case DRAMA:
+					str << "Dramat";
+					break;
+	      case COMEDY:
+					str << "Komedia";
+					break;
+	      case MUSICAL:
+					str << "Musical";
+					break;
+	      case OPERA:
+					str << "Opera";
+					break;
+	      case PANTOMIME:
+					str << "Pantomima";
+					break;
 			}
 			break;
 		case MIN_AGE:
@@ -130,9 +132,9 @@ void Show::displayInfo() const
     std::cout << getInfo().rdbuf();
 }
 
-std::ostringstream Show::getInfo() const
+std::stringstream Show::getInfo() const
 {
-	std::ostringstream str;
+	std::stringstream str;
 	str << "|| Tytul: " << this->getInfo(TITLE).rdbuf() << '\n'
 	 		<< "|| Gatunek: " << this->getInfo(TYPE).rdbuf()
 	 		<< "|| Data: " << this->getInfo(DATE).rdbuf()
@@ -157,10 +159,10 @@ bool Show::displayAudience(){
 	return true;
 }
 
-std::ostringstream Show::getAudience()
+std::stringstream Show::getAudience()
 {
 	Customer* aud_member = this->audience.getElement(0);
-	std::ostringstream str;
+	std::stringstream str;
 
 	str << "^LISTA WIDZOW PRZEDSTAWIENIA^\n";
 

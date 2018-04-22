@@ -22,7 +22,19 @@
 /*Class to handle travelling between menus in the test2 programme*/
 class Menus
 {
-	public:
+private:
+	bool b_quit; //quit the programme
+	bool b_quit1; //quit the menu
+	int decision; //menu choice
+
+	//Queues
+	Queue<Customer>* cust_queue; //customers queue
+	Queue<Show>* perf_queue; // performances queue
+
+	//Counting
+	uint cust_count;
+	uint perf_count;
+public:
 		typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS}OPTIONS;
 		Menus();
 		~Menus();
@@ -33,9 +45,17 @@ class Menus
 		uint cust(); // for compatibility - to delete
 		uint perf(); // for compatibility - to delete
 		uint sign(); // for compatibility - to delete
-	private:
+		//Moved from main file ~przestaw
+		void init(); //TODO: remove cin/cout/endl
+		void newCust();
+		void delCust();
+		void newPerf();
+		void delPerf();
+		void sign();
+		void resign();
+private:
 		static uint getOption(uint min,uint max);
-		static std::ostringstream putOptions(OPTIONS which) ;
+		static std::stringstream putOptions(OPTIONS which);
 };
 
 #endif //_MENUS_HPP_

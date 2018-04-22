@@ -57,10 +57,10 @@ class Show
 
 		void displayInfo (SHOW_INFO) const; // for compatibility - to delete
 		void displayInfo() const; // for compatibility - to delete
-		std::ostringstream getInfo(SHOW_INFO) const;
-    std::ostringstream getInfo() const;
+		std::stringstream getInfo(SHOW_INFO) const;
+    std::stringstream getInfo() const;
 		bool displayAudience(); // for compatibility - to delete
-    std::ostringstream getAudience();
+    std::stringstream getAudience();
 
 		//Subscribing and unsubscribing an audience member
 		bool newBuyer(Customer&);

@@ -75,9 +75,9 @@ void Customer::displayInfo()
 }
 
 //// Precised info
-std::ostringstream Customer::getInfo ( CUS_INFO info)
+std::stringstream Customer::getInfo ( CUS_INFO info)
 {
-    std::ostringstream str;
+    std::stringstream str;
       switch (info){
       case FORE:
         str << forename;
@@ -99,9 +99,9 @@ std::ostringstream Customer::getInfo ( CUS_INFO info)
 }
 
 //// All info
-std::ostringstream Customer::getInfo()
+std::stringstream Customer::getInfo()
 {
-  std::ostringstream str;
+  std::stringstream str;
       str << "| Imie: " << getInfo(FORE).rdbuf()
           << "| Nazwisko: " << getInfo(SUR).rdbuf()
           << "| Wiek: " << getInfo(AGE).rdbuf()
