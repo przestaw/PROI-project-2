@@ -16,6 +16,7 @@
 #include "Show.hpp"
 #include "Customer.hpp"
 #include "Queue.hpp"
+#include "err_struct.hpp"
 
 /****CLASS SHOW****/
 
@@ -23,18 +24,13 @@
 
 ////
 Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_month, uint p_day, double p_hour, uint p_seats_limit)
-  :title(p_title), min_age(p_min_age),
+  :title(p_title), min_age(p_min_age), hour(p_hour),
   seats_limit(p_seats_limit), seats_taken(0),
   nr_of_rates(0), rate(0)
 {
 	date[0] = p_year; //exeption needed
 	date[1] = p_month; //exeption needed
 	date[2] = p_day; //exeption needed
-
-	hour = p_hour;
-	if (p_hour<0.0 || hour >= 24.0){
-		hour = 0.0; //exeption needed
-	}
 
 	switch (p_type)
   {
@@ -53,6 +49,12 @@ Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_
   case 5:
     type = PANTOMIME;
     break;
+	}
+
+  if (hour<0.0 || hour >= 24.0)
+  {
+    Err_Struct exept(1,0,0,"invalid Show hour [noy in range]\n", "Nieistniejąca godzina\n");
+    throw exept;
 	}
 }
 
@@ -120,7 +122,8 @@ std::stringstream Show::getInfo(SHOW_INFO info) const
     case RATE:
       str << rate;
 		default:
-			throw "unprecised info[fun=Show::getInfo(SHOW_INFO)]";
+
+      throw "unprecised info[fun=Show::getInfo(SHOW_INFO)]";
 			break;
 	}
 	return str;
@@ -148,7 +151,8 @@ std::stringstream Show::getInfo() const
 
 
 //// Audience members list
-bool Show::displayAudience(){
+bool Show::displayAudience()
+{
 	if (this->audience.getElement(0)==nullptr)
   {
 		return false;

@@ -12,6 +12,7 @@
 
 #include <ctime>
 #include <cstdlib>
+#include "err_struct.hpp"
 
 Child::Child()
   :Customer("Janek", "Kowalczyk", rand()%8+10) {}
@@ -21,7 +22,8 @@ Child::Child(std::string p_forename, std::string p_surname, uint p_age)
 {
   if(p_age > 17)
   {
-    throw "invalid age[fun=Child::Child(std::string p_forename, std::string p_surname, uint p_age)]";
+    Err_Struct exept(0,1,1,"err = invalid age\n", "Dzieci sa jedynie niepelnoletnie !\n");
+    throw exept;
   }
 }
 

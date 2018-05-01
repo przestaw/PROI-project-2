@@ -29,19 +29,111 @@ using namespace std;
 //Programme info
 void progInfo();
 
-//Displaying lists - template function
-template <typename T>
-bool print(Queue<T>*, int);
-
 /*****MAIN FUNCTION*****/
+
+bool b_quit; //quit the programme
+bool b_quit1; //quit the menu
+int decision; //menu choice
 
 int main()
 {
+	std::istream& s_in = std::cin;
+	std::ostream& s_out = std::cout;
+	std::ostream& s_err = std::cerr;
 	progInfo();
 	Menus theater_1;
-	theater_1.init(cin, cout);
 
-  return 0;
+  while (!b_quit)
+  {
+    b_quit1 = false;
+    decision = theater_1.main(s_in, s_out, s_err);
+    //scroll(32);
+    switch (decision)
+    {
+      case 1:
+				while (!b_quit1)
+        {
+          decision = theater_1.cust(s_in, s_out, s_err);
+          //scroll(32);
+          switch (decision)
+          {
+					  case 1:
+							try
+							{
+								theater_1.newCust(s_in, s_out, s_err);
+							}catch(Err_Struct exept)
+							{
+								exept.handle(s_out, s_err);
+							}
+			        break;
+					  case 2:
+						  theater_1.delCust(s_in, s_out, s_err);
+						  break;
+					  case 3:
+						  theater_1.print_db(1, s_out, s_err);
+						  break;
+					  case 0:
+						  b_quit1 = true;
+						  break;
+				  }
+				}
+        break;
+      case 2:
+				while (!b_quit1)
+        {
+          decision = theater_1.perf(s_in, s_out, s_err);
+          //scroll(32);
+
+          switch (decision)
+          {
+					case 1:
+						theater_1.newPerf(s_in, s_out, s_err);
+						break;
+					case 2:
+						theater_1.delPerf(s_in, s_out, s_err);
+						break;
+					case 3:
+						theater_1.print_db(2, s_out, s_err);
+						break;
+					case 0:
+						b_quit1 = true;
+						break;
+					}
+				}
+				break;
+			case 3:
+				while (!b_quit1)
+        {
+				  decision = theater_1.sign(s_in, s_out, s_err);
+				  //scroll(32);
+
+				  switch (decision){
+					case 1:
+						theater_1.Sign(s_in, s_out, s_err);
+						break;
+					case 2:
+						theater_1.Resign(s_in, s_out, s_err);
+						break;
+					case 0:
+						b_quit1 = true;
+						break;
+					}
+				}
+			  break;
+      case 0:
+			  //scroll(32);
+        b_quit = true;
+			  break;
+      default:
+        break;
+    }
+  }
+
+
+	return 0;
+	//scroll(32);
+  //freeMemory();
+  s_out << "Dziekuje za skorzystanie z programu." << '\n' << '\n';
 }
 
 //TODO:
@@ -57,26 +149,4 @@ void progInfo()
 	cout << "Prowadzacy: dr inz. Wiktor Kusmirek" << endl;
 	cout << "Przemyslaw Stawczyk, 18L" << endl;
 
-}
-
-
-/*Printing the elements - template function*/
-template <typename T>
-bool print(Queue<T>* queue, int count)
-{
-	if (count){
-		T* temp_el;
-		cout << "~~~Lista elementow bazy danych~~~" << endl;
-		for (int i = 0; i<count; i++){
-			cout << "NUMER " << i+1 << "/" << endl;
-
-			temp_el = queue->getElement(i);
-			if (temp_el!=nullptr) { temp_el->displayInfo(); }
-			else { cout << "Cos poszlo nie tak." << endl; }
-		}
-	}
-	else{
-		return false;
-	}
-	return true;
 }

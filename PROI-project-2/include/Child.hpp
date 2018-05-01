@@ -10,6 +10,9 @@
  */
 #include "Customer.hpp"
 
+#ifndef _CHILD_HPP_
+#define _CHILD_HPP_
+
 class Child:public Customer
 {
  private:
@@ -21,3 +24,5 @@ class Child:public Customer
    Child(std::string, std::string, uint);
    ~Child();
 };
+
+#endif //_CHILD_HPP_

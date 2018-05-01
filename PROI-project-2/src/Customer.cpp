@@ -89,7 +89,21 @@ std::stringstream Customer::getInfo ( CUS_INFO info)
         str << age;
         break;
       case TYPE:
-        str << sex;
+        switch (sex)
+        {
+          case KID:
+            str << "dziecko";
+            break;
+          case WOMAN:
+            str << "kobieta";
+            break;
+          case MAN:
+            str << "mezczynza";
+            break;
+          case UNDEFINED:
+            str << "transwestyta";
+            break;
+        };
         break;
       default:
         throw "unprecised info[fun=Customer::getInfo(CUS_INFO)]";

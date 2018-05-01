@@ -15,37 +15,9 @@
 #include "Menus.hpp"
 using std::string;
 
-template <typename T>
-bool print(Queue<T>* queue, int count, std::ostream& s_out)
-{
-	if (count){
-		T* temp_el;
-		s_out << "~~~Lista elementow bazy danych~~~\n";
-		for (int i = 0; i<count; i++)
-    {
-			s_out << "NUMER " << i+1 << "/\n";
-
-			temp_el = queue->getElement(i);
-			if (temp_el!=nullptr)
-      {
-        temp_el->displayInfo();
-      }
-			else
-      {
-        throw "Error[fun=Menus::Print()]" ;
-      }
-		}
-	}
-	else
-  {
-		return false;
-	}
-	return true;
-}
-
 /*Cons&des*/
 Menus::Menus()
-  :cust_count(0), perf_count(0), b_quit(false), b_quit1(false)
+  :cust_count(0), perf_count(0)//, b_quit(false), b_quit1(false)
 {}
 
 Menus::~Menus()
@@ -89,7 +61,7 @@ Menus::~Menus()
   }
 }
 
-uint Menus::getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out)
+uint Menus::getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   uint input;
   do{
@@ -136,6 +108,12 @@ std::stringstream Menus::putOptions(OPTIONS input)
     	     << "2. Wypisywanie\n"
     	     << "0. Powrot do meun glownego\n";
       break;
+		case GENDERS:
+			ss_t << "- ROZROZNIENIE KLIENTOW -\n"
+					 << "1. Kobieta\n"
+					 << "2. Mezczyzna\n"
+					 << "3. Dziecko\n";
+				break;
     }
   return ss_t;
 }
@@ -150,31 +128,31 @@ void Menus::scroll(int n) const
 }
 // TODO: DELETE _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 //Main menu
-uint Menus::main(std::istream& s_in, std::ostream& s_out) const
+uint Menus::main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const
 {
   s_out << this->putOptions(MAIN).rdbuf();
-  return this->getOption(0, 3, s_in, s_out);
+  return this->getOption(0, 3, s_in, s_out, s_err);
 }
 
 //Customer
-uint Menus::cust(std::istream& s_in, std::ostream& s_out)
+uint Menus::cust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   s_out << this->putOptions(CUSTOMERS).rdbuf();
-	return getOption(0, 3, s_in, s_out);
+	return getOption(0, 3, s_in, s_out, s_err);
 }
 
 //Performance
-uint Menus::perf(std::istream& s_in, std::ostream& s_out)
+uint Menus::perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   s_out << this->putOptions(PERFORMANCES).rdbuf();
-	return getOption(0, 3, s_in, s_out);
+	return getOption(0, 3, s_in, s_out, s_err);
 }
 
 //Subscriptions
-uint Menus::sign(std::istream& s_in, std::ostream& s_out)
+uint Menus::sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   s_out << this->putOptions(RESERVATIONS).rdbuf();
-	return this->getOption(0, 2, s_in, s_out);
+	return this->getOption(0, 2, s_in, s_out, s_err);
 }
 // TODO: DELETE<endof> _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 
@@ -182,24 +160,24 @@ uint Menus::sign(std::istream& s_in, std::ostream& s_out)
 //        add: stream support[remove cin/cout ad cerr],
 //             remove endl, add exeptions
 //             move specified print<> method form main.cpp template function
-// TODO(?): Removal of counters -> implement in Queue
-// TODO(??): Destructor -> implement in Queue
+// done TODO(?): Removal of counters -> implement in Queue
+// done TODO(??): Destructor -> implement in Queue(?)
 
-
-void Menus::init(std::istream& s_in, std::ostream& s_out)
+/*
+void Menus::init(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   while (!b_quit)
   {
     b_quit1 = false;
     decision = main(s_in, s_out);
-    scroll(32);
+    //scroll(32);
     switch (decision)
     {
       case 1:
 				while (!b_quit1)
         {
           decision = cust(s_in, s_out);
-          scroll(32);
+          //scroll(32);
           switch (decision)
           {
 					  case 1:
@@ -212,7 +190,7 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
 						  if(!print<Customer> (cust_queue, cust_count, s_out))
               {
 							  s_out << "Nie ma zadnych klientow!" << '\n';
-							  scroll(4);
+							  //scroll(4);
 						  }
 						  break;
 					  case 0:
@@ -225,7 +203,7 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
 				while (!b_quit1)
         {
           decision = perf(s_in, s_out);
-          scroll(32);
+          //scroll(32);
 
           switch (decision)
           {
@@ -239,7 +217,7 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
 						if(!print<Show> (perf_queue, perf_count, s_out))
             {
 							s_out << "Nie ma zadnych przedstawien!" << '\n';
-							scroll(4);
+							//scroll(4);
 						}
 						break;
 					case 0:
@@ -252,7 +230,7 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
 				while (!b_quit1)
         {
 				  decision = sign(s_in, s_out);
-				  scroll(32);
+				  //scroll(32);
 
 				  switch (decision){
 					case 1:
@@ -268,7 +246,7 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
 				}
 			  break;
       case 0:
-			  scroll(32);
+			  //scroll(32);
         b_quit = true;
 			  break;
       default:
@@ -276,31 +254,43 @@ void Menus::init(std::istream& s_in, std::ostream& s_out)
     }
   }
 
-	scroll(32);
+	//scroll(32);
   //freeMemory();
   s_out << "Dziekuje za skorzystanie z programu." << '\n' << '\n';
 }
-
-void Menus::newCust(std::istream& s_in, std::ostream& s_out)
+*/
+void Menus::newCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
       string new_forename;
       string new_surname;
       uint new_age;
-
       s_out << "Wprowadz imie: "; s_in >> new_forename;
       s_out << "Wprowadz nazwisko: "; s_in >> new_surname;
       s_out << "Wprowadz wiek: "; s_in >> new_age;
+			s_out << putOptions(GENDERS).rdbuf();
 
-      scroll(32);
+			Customer* new_cust;
+      //scroll(32);
+			switch(getOption(0,3,s_in, s_out, s_err))
+			{
+				case 1:
+					//Customer* new_cust = new Woman(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
+					break;
+				case 2:
+					//Customer* new_cust = new Man(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
+					break;
+				case 3:
+					new_cust = new Child(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
+					break;
+				case 0:
+					new_cust = new Customer(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
+					break;
+				default:
+					Err_Struct exept(0,0,1,"invalid type entered", "Nieprawidlowy typ klienta");
+					throw exept;
+			}
 
-      Customer* new_cust = new Customer(new_forename, new_surname, new_age); //create the new customer, his ID is custs numb.
-      s_out << "Utworzono klienta ";
-      new_cust->displayInfo(Customer::FORE);
-      s_out << " ";
-      new_cust->displayInfo(Customer::SUR);
-      s_out << ", ";
-      new_cust->displayInfo(Customer::AGE);
-      s_out << " lat." << '\n';
+      s_out << "Utworzono klienta " << new_cust->getInfo().rdbuf();
 
       //put the new customer in the customers queue
       if (!cust_count){
@@ -310,10 +300,10 @@ void Menus::newCust(std::istream& s_in, std::ostream& s_out)
       cust_count++;
 
       *cust_queue+*new_cust; //attach the new cust to the queue
-	scroll(4);
+	//scroll(4);
 }
 
-void Menus::delCust(std::istream& s_in, std::ostream& s_out)
+void Menus::delCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
       if (cust_count)
       {
@@ -323,13 +313,10 @@ void Menus::delCust(std::istream& s_in, std::ostream& s_out)
 
             Customer* del_cust = cust_queue->getElement(del_id-1);
 
-			scroll(32);
+			//scroll(32);
 
             if (del_cust!=nullptr){
-                  s_out << "Klient "; del_cust->displayInfo(Customer::FORE);
-                  s_out << " "; del_cust->displayInfo(Customer::SUR);
-                  s_out << ", lat "; del_cust->displayInfo(Customer::AGE);
-                  s_out << "." << '\n';
+                  s_out << "Klient :" << del_cust->getInfo().rdbuf();
 
                   if(*cust_queue-*del_cust){
                         s_out << "Pomyslnie usunieto klienta!" << '\n';
@@ -348,10 +335,10 @@ void Menus::delCust(std::istream& s_in, std::ostream& s_out)
       else{
             s_out << "Nie ma zadnych klientow!" << '\n';
       }
-      scroll(4);
+      //scroll(4);
 }
 
-void Menus::newPerf(std::istream& s_in, std::ostream& s_out)
+void Menus::newPerf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
       string new_title;
       uint new_type;
@@ -371,22 +358,27 @@ void Menus::newPerf(std::istream& s_in, std::ostream& s_out)
       s_out << "Wprowadz limit miejsc: "; s_in >> new_seats_limit;
       s_out << "Wprowadz ograniczenie wiekowe: "; s_in >> new_min_age;
 
-      scroll(32);
+      //scroll(32);
+			try
+			{
+      	Show* new_perf = new Show(new_title, new_type-1, new_min_age, new_date[0], new_date[1], new_date[2], new_hour, new_seats_limit);
+				if (!perf_count)
+	      { //if this is the first perf in the database
+	            perf_queue = new Queue<Show>;
+	      }
+	      perf_count++;
 
-      Show* new_perf = new Show(new_title, new_type-1, new_min_age, new_date[0], new_date[1], new_date[2], new_hour, new_seats_limit);
-      s_out << "Pomyslnie dodano przedstawienie." << '\n';
-
-      if (!perf_count)
-      { //if this is the first perf in the database
-            perf_queue = new Queue<Show>;
-      }
-      perf_count++;
-
-      *perf_queue+*new_perf; //attach the new perf to the queue
-	  scroll(4);
+	      *perf_queue+*new_perf; //attach the new perf to the queue
+			}catch(Err_Struct exept)
+			{
+				exept.handle(s_out, s_err);
+				//delete new_perf;
+				return;
+			}
+	  //scroll(4);
 }
 
-void Menus::delPerf(std::istream& s_in, std::ostream& s_out)
+void Menus::delPerf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
   if (perf_count)
   {
@@ -396,14 +388,14 @@ void Menus::delPerf(std::istream& s_in, std::ostream& s_out)
     s_out << "Wprowadz numer przedstawienia na liscie: ";
     s_in >> del_id;
     del_perf = perf_queue->getElement(del_id-1);
-		scroll(32);
+		//scroll(32);
 
     if (del_perf!=nullptr)
     {
-      s_out << "Przedstawienie \""; del_perf->displayInfo(Show::TITLE);
-      s_out << "\", data "; del_perf->displayInfo(Show::DATE);
-      s_out << " godz. "; del_perf->displayInfo(Show::HOUR);
-      s_out << "." << '\n';
+			s_out << "Przedstawienie '" << del_perf->getInfo(Show::TITLE).rdbuf()
+						<< "', " << del_perf->getInfo(Show::DATE).rdbuf()
+						<< " godz. " << del_perf->getInfo(Show::HOUR).rdbuf()
+						<< ".\n";
 
       if (*perf_queue-*del_perf)
       {
@@ -428,13 +420,13 @@ void Menus::delPerf(std::istream& s_in, std::ostream& s_out)
     s_out << "Nie ma zadnych przedstawien!" << '\n';
   }
 
-  scroll(4);
+  //scroll(4);
 }
 
 //Subscribe a customers to a show
-void Menus::Sign(std::istream& s_in, std::ostream& s_out)
+void Menus::Sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
-	if (print<Show>(perf_queue, perf_count, s_out))
+	if (print<Show>(perf_queue, perf_count, s_out, s_err))
   { //Print the performances list; if it's empty, return to sub&unsub menu
 		Show* temp_perf;
 		int perf_id;
@@ -444,22 +436,21 @@ void Menus::Sign(std::istream& s_in, std::ostream& s_out)
 
 		temp_perf = perf_queue->getElement(perf_id-1);
 
-		scroll(32);
+		//scroll(32);
 
 		if (temp_perf!=nullptr)
     {
-			s_out << "Przedstawienie '"; temp_perf->displayInfo(Show::TITLE);
-			s_out <<	"', "; temp_perf->displayInfo(Show::DATE);
-			s_out << " godz. "; temp_perf->displayInfo(Show::HOUR);
-			s_out <<	". " << '\n' << '\n';
+			s_out << "Przedstawienie '" << temp_perf->getInfo(Show::TITLE).rdbuf()
+						<< "', " << temp_perf->getInfo(Show::DATE).rdbuf()
+						<< " godz. " << temp_perf->getInfo(Show::HOUR).rdbuf()
+						<< ".\n";
 
-			int anything; //Wait for any key before cleaning the screen
-			s_out << "OK... ";
-			s_in >> anything;
+			s_out << "wcisnij dowolny przycisk by kontynuowac\n";
+			s_in.get();
 
-			scroll(32);
+			//scroll(32);
 
-			if (print<Customer>(cust_queue, cust_count, s_out))
+			if (print<Customer>(cust_queue, cust_count, s_out, s_err))
       { //Print the customers list; if it's empty, say it and return
 				int cust_id;
 				Customer* temp_cust;
@@ -469,7 +460,7 @@ void Menus::Sign(std::istream& s_in, std::ostream& s_out)
 
 				temp_cust = cust_queue->getElement(cust_id-1);
 
-				scroll(32);
+				//scroll(32);
 
 				if (temp_cust!=nullptr){
 					if (temp_perf->newBuyer(*temp_cust))
@@ -501,13 +492,13 @@ void Menus::Sign(std::istream& s_in, std::ostream& s_out)
 		s_out << "Nie ma zadnych przedstawien!" << '\n';
 	}
 
-	scroll(4);
+	//scroll(4);
 }
 
 //Unsubscribe a customer from a show
-void Menus::Resign(std::istream& s_in, std::ostream& s_out)
+void Menus::Resign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
-	if (print<Show>(perf_queue, perf_count, s_out))
+	if (print<Show>(perf_queue, perf_count, s_out, s_err))
 	{ //Print the shows list; if it's empty, say it and return
 		Show* temp_perf;
 		int perf_id;
@@ -517,33 +508,34 @@ void Menus::Resign(std::istream& s_in, std::ostream& s_out)
 
 		temp_perf = perf_queue->getElement(perf_id-1);
 
-		scroll(32);
+		//scroll(32);
 
 		if (temp_perf!=nullptr)
 		{
-			s_out << "Przedstawienie '"; temp_perf->displayInfo(Show::TITLE);
-			s_out << "', "; temp_perf->displayInfo(Show::DATE);
-			s_out << " godz. "; temp_perf->displayInfo(Show::HOUR);
-			s_out << ". " << '\n';
+			s_out << "Przedstawienie '" << temp_perf->getInfo(Show::TITLE).rdbuf()
+						<< "', " << temp_perf->getInfo(Show::DATE).rdbuf()
+						<< " godz. " << temp_perf->getInfo(Show::HOUR).rdbuf()
+						<< ".\n";
 
-			int anything; //Wait for any key before cleaning screen
-			s_out << "OK... ";
-			s_in >> anything;
+			s_out << "wcisnij dowolny przycisk by kontynuowac\n";
+			s_in.get();
 
-			scroll(32);
+			//scroll(32);
 
+//TODO: exeption in getAudience !
+//TODO: rewrite below code
 			if (temp_perf->displayAudience())
 			{ //Print the list of the members of the show's audience; if it's empty, say it and return
 				int cust_id;
 				Customer* temp_cust;
 
-        scroll(2);
+        //scroll(2);
 				s_out << "Wybierz numer widza, ktorego chcesz wypisac. " << '\n';
 				s_in >> cust_id;
 
 				temp_cust = temp_perf->getAudienceMember(cust_id);
 
-				scroll(32);
+				//scroll(32);
 				if (temp_cust!=nullptr)
 				{
 					if (temp_perf->delBuyer(*temp_cust))
@@ -575,5 +567,18 @@ void Menus::Resign(std::istream& s_in, std::ostream& s_out)
 		s_out << "Nie ma zadnych przedstawien!" << '\n';
 	}
 
-	scroll(4);
+	//scroll(4);
+}
+
+void Menus::print_db(uint mode, std::ostream& s_out, std::ostream& s_err)
+{
+	switch (mode)
+	{
+		case 1:
+			print<Customer> (cust_queue, cust_count, s_out, s_err);
+			break;
+		case 2:
+			print<Show> (perf_queue, cust_count, s_out, s_err);
+			break;
+	}
 }
