@@ -54,20 +54,23 @@ class Show
 		~Show();
 
     void add_rate(uint);
+    void Rate();
+    double getRate();
 
-		void displayInfo (SHOW_INFO) const; // for compatibility - to delete
-		void displayInfo() const; // for compatibility - to delete
+		//void displayInfo (SHOW_INFO) const; // for compatibility - to delete
+		//void displayInfo() const; // for compatibility - to delete
 		std::stringstream getInfo(SHOW_INFO) const;
     std::stringstream getInfo() const;
-		bool displayAudience(); // for compatibility - to delete
+		//bool displayAudience(); // for compatibility - to delete
     std::stringstream getAudience();
 
 		//Subscribing and unsubscribing an audience member
-		bool newBuyer(Customer&);
-		bool delBuyer(Customer&);
+		void newBuyer(Customer&);
+		void delBuyer(Customer&);
 
 		//Finding a particular client in the audience queue
 		Customer* getAudienceMember (int);
+    bool isEmpty();
 };
 
 #endif //_SHOW_HPP_

@@ -35,8 +35,8 @@ Customer::Customer()
 {
   std::srand(std::time(nullptr));
 
-  this->forename = "Jan";
-  this->surname = "Kowalski";
+  this->forename = "Adolf";
+  this->surname = "Hitler";
   this->age = rand()%77+13;
 }
 
@@ -55,23 +55,11 @@ bool Customer::operator== (Customer & another) const
 
 /*METHODS*/
 
-uint Customer::rate(Show *show_r)
+uint Customer::Rate(Show *show_r)
 {
-  int rate = rand()%10;
+  int rate = rand()%11;
   show_r->add_rate(rate);
   return rate;
-}
-
-//// Precised info
-void Customer::displayInfo (CUS_INFO info)
-{
-      std::cout << getInfo(info).rdbuf();
-}
-
-//// All info
-void Customer::displayInfo()
-{
-      std::cout << getInfo().rdbuf();
 }
 
 //// Precised info
@@ -103,10 +91,12 @@ std::stringstream Customer::getInfo ( CUS_INFO info)
           case UNDEFINED:
             str << "transwestyta";
             break;
+          default:
+            str << "error";
         };
         break;
       default:
-        throw "unprecised info[fun=Customer::getInfo(CUS_INFO)]";
+        str << "error";
         break;
       }
   return str;

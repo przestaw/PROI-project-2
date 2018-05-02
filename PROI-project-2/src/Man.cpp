@@ -1,5 +1,5 @@
 /*
- * Child.cpp
+ * Man.cpp
  *
  * Class Deriviated from Customer representing the theater client
  * ^IMPLEMENTATION
@@ -8,30 +8,30 @@
  * Tutor: dr inz. Wiktor Kusmirek
  * Przemysław Stawczyk
  */
-#include "Child.hpp"
+#include "Man.hpp"
 
 #include <ctime>
 #include <cstdlib>
 #include "err_struct.hpp"
 
-Child::Child()
-  :Customer("Janek", "Kowalczyk", rand()%8+10) {}
+Man::Man()
+  :Customer("Jan", "Kowal", 18+rand()%60) {}
 
-Child::Child(std::string p_forename, std::string p_surname, uint p_age)
+Man::Man(std::string p_forename, std::string p_surname, uint p_age)
   :Customer(p_forename, p_surname, p_age)
 {
-  if(p_age > 17)
+  if(p_age < 18)
   {
-    Err_Struct exept(0,1,1,"err = invalid age\n", "Dzieci sa jedynie niepelnoletnie !\n");
+    Err_Struct exept(0,1,1,"err = invalid age\n", "Mezczyzni sa pelnoletni !\n");
     throw exept;
   }
 }
 
-Child::~Child() {}
+Man::~Man() {}
 
-uint Child::Rate(Show *show_r)
+uint Man::Rate(Show *show_r)
 {
-  int rate = rand()%5;
+  int rate = 3+rand()%6;
   show_r->add_rate(rate);
   return rate;
 }

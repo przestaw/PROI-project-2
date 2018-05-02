@@ -18,7 +18,7 @@ class Child:public Customer
  private:
    static const SEX sex = KID;
  public:
-   virtual uint rate(Show *show_r);
+   virtual uint Rate(Show *show_r);
    Child();
    // two argument constructor ??
    Child(std::string, std::string, uint);

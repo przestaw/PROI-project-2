@@ -67,9 +67,16 @@ int main()
 							}
 			        break;
 					  case 2:
-						  theater_1.delCust(s_in, s_out, s_err);
+							try
+							{
+								theater_1.delCust(s_in, s_out, s_err);
+							}catch(Err_Struct exept)
+							{
+								exept.handle(s_out, s_err);
+							}
 						  break;
 					  case 3:
+				//TODO: move fun to class
 						  theater_1.print_db(1, s_out, s_err);
 						  break;
 					  case 0:
@@ -87,12 +94,20 @@ int main()
           switch (decision)
           {
 					case 1:
-						theater_1.newPerf(s_in, s_out, s_err);
+						try
+						{
+							theater_1.newPerf(s_in, s_out, s_err);
+						}catch(Err_Struct exept)
+						{
+							exept.handle(s_out, s_err);
+							//delete new_perf?;
+						}
 						break;
 					case 2:
 						theater_1.delPerf(s_in, s_out, s_err);
 						break;
 					case 3:
+			//TODO: move fun to class
 						theater_1.print_db(2, s_out, s_err);
 						break;
 					case 0:
@@ -105,14 +120,24 @@ int main()
 				while (!b_quit1)
         {
 				  decision = theater_1.sign(s_in, s_out, s_err);
-				  //scroll(32);
-
 				  switch (decision){
 					case 1:
-						theater_1.Sign(s_in, s_out, s_err);
+						try
+						{
+							theater_1.Sign(s_in, s_out, s_err);
+						}catch(Err_Struct exept)
+						{
+							exept.handle(s_out, s_err);
+						}
 						break;
 					case 2:
-						theater_1.Resign(s_in, s_out, s_err);
+						try
+						{
+							theater_1.Resign(s_in, s_out, s_err);
+						}catch(Err_Struct exept)
+						{
+							exept.handle(s_out, s_err);
+						}
 						break;
 					case 0:
 						b_quit1 = true;

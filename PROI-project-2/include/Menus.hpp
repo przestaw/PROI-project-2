@@ -16,6 +16,8 @@
 
 #include "Customer.hpp"
 #include "Child.hpp"
+#include "Man.hpp"
+#include "Woman.hpp"
 #include "Show.hpp"
 #include "Queue.hpp"
 #include "err_struct.hpp"
@@ -62,38 +64,33 @@ private:
 };
 
 template <typename T>
-bool print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_err)
+std::stringstream print(Queue<T>* queue, int count)
 {
-	if (count){
+	std::stringstream str;
+	if (count)
+	{
 		T* temp_el;
-		s_out << "~~~Lista elementow bazy danych~~~\n";
+		str << "~~~Lista elementow~~~\n";
 		for (int i = 0; i<count; i++)
     {
-			try
+			str << "NR " << i+1 << "\n";
+			temp_el = queue->getElement(i);
+			if (temp_el!=nullptr)
 			{
-				s_out << "NR " << i+1 << "\n";
-				temp_el = queue->getElement(i);
-				if (temp_el!=nullptr)
-	      {
-	        s_out << temp_el->getInfo().rdbuf();
-	      }
-				else
-	      {
-					Err_Struct exept(1,0,0,"unknown error in print [emplate function]");
-	        throw  exept;
-	      }
-			}catch(Err_Struct exept)
-			{
-				exept.handle(s_out, s_err);
+				str << temp_el->getInfo().rdbuf();
 			}
-
+			else
+			{
+				Err_Struct exept(1,0,0,"unknown error in print [emplate function]");
+				throw  exept;
+			}
 		}
 	}
 	else
   {
-		return false;
+		str << "~~~Lista jest pusta~~~\n";
 	}
-	return true;
+	return str;
 }
 
 #endif //_MENUS_HPP_

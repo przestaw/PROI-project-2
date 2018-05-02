@@ -44,10 +44,10 @@ public:
 		bool operator== (Customer &) const;
 
 		/*Methods*/
-		virtual uint rate(Show *show_r); //TODO: implement here and in deriviated classes
+		virtual uint Rate(Show *show_r); //TODO: implement here and in deriviated classes
 
-		void displayInfo (CUS_INFO); // for compatibility - to delete
-		void displayInfo(); // for compatibility - to delete
+		//void displayInfo (CUS_INFO); // for compatibility - to delete
+		//void displayInfo(); // for compatibility - to delete
 		std::stringstream getInfo(CUS_INFO);
 		std::stringstream getInfo();
 		inline uint tellAge() const { return this->age; }

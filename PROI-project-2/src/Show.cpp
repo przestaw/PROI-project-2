@@ -68,12 +68,34 @@ void Show::add_rate(uint rate_n)
   rate = (rate_n + rate* nr_of_rates)/(++nr_of_rates);
 }
 
-//// Precised info
-void Show::displayInfo(SHOW_INFO info) const
+void Show::Rate()
 {
-	std::cout << getInfo(info).rdbuf();
+  Customer* aud_member = this->audience.getElement(0);
+	if (aud_member==nullptr)
+  {
+		return;
+	}
+
+	for (int i=1; aud_member!=nullptr; i++)
+  {
+		aud_member->Rate(this);
+		aud_member = this->audience.getElement(i);
+	}
 }
 
+double Show::getRate()
+{
+  if(nr_of_rates > 0)
+  {
+    return rate;
+  }else
+  {
+    Err_Struct exept(0, 0, 1, "show is not yet rated", "To przedstawienie nie zostalo jeszcze ocenione");
+    throw exept;
+  }
+}
+
+//// Precised info
 std::stringstream Show::getInfo(SHOW_INFO info) const
 {
 	std::stringstream str;
@@ -130,11 +152,6 @@ std::stringstream Show::getInfo(SHOW_INFO info) const
 }
 
 //// All info
-void Show::displayInfo() const
-{
-    std::cout << getInfo().rdbuf();
-}
-
 std::stringstream Show::getInfo() const
 {
 	std::stringstream str;
@@ -150,7 +167,8 @@ std::stringstream Show::getInfo() const
 }
 
 
-//// Audience members list
+//// Audience members list //TODO: Rework for strstream and exeptions
+/*
 bool Show::displayAudience()
 {
 	if (this->audience.getElement(0)==nullptr)
@@ -162,13 +180,13 @@ bool Show::displayAudience()
 
 	return true;
 }
-
+*/
 std::stringstream Show::getAudience()
 {
 	Customer* aud_member = this->audience.getElement(0);
 	std::stringstream str;
-
-	str << "^LISTA WIDZOW PRZEDSTAWIENIA^\n";
+  str << this->getInfo().rdbuf()
+	    << "^LISTA WIDZOW PRZEDSTAWIENIA^\n";
 
 	if (aud_member==nullptr){
 		str << " -- EMPTY -- ";
@@ -183,49 +201,48 @@ std::stringstream Show::getAudience()
 	return str;
 }
 
-
-// - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ TODO: newBuyer
-
-
 //// Add a new audience member
-bool Show::newBuyer(Customer & buyer)
+void Show::newBuyer(Customer & buyer)
 {
-
-	bool b_success = true;
-
-	if (buyer.tellAge() < this->min_age){
-		std::cout << "Kupujacy nie spelnia wymagan dotyczacych wieku." << std::endl;
-		b_success = false;
+	if (buyer.tellAge() < this->min_age)
+  {
+    Err_Struct exept1(0,0,1, "customer does not meet requirements\n","Kupujacy nie spelnia wymagan dotyczacych wieku.\n");
+		throw exept1;
 	}
-	else if (this->seats_taken >= this->seats_limit){
-		std::cout << "Brak wolnych miejsc na to przedstawienie." << std::endl;
-		b_success = false;
+	else if (this->seats_taken >= this->seats_limit)
+  {
+    Err_Struct exept2(0,0,1, "no empty seat for customer\n","Brak wolnych miejsc na to przedstawienie.\n");
+		throw exept2;
 	}
-	else if (this->audience.findElement(buyer)){
-		std::cout << "Ten kupujacy jest juz zapisany na to przedstawienie." << std::endl;
-		b_success = false;
+	else if (this->audience.findElement(buyer))
+  {
+    Err_Struct exept3(0,0,1, "customer is already registered\n","Ten kupujacy jest juz zapisany na to przedstawienie.\n");
+		throw exept3;
 	}
 	else{
 		this->seats_taken++;
 		this->audience+buyer;
 	}
-	return b_success;
 }
 
 //// Delete an audience member
-bool Show::delBuyer(Customer & buyer)
+void Show::delBuyer(Customer & buyer)
 {
-
 	if (!(this->audience-buyer))
-		return false;
-
+  {
+    Err_Struct exept(0,0,1,"unable to delete customer from show\n", "Nie udalo sie wypisac widza z przedstawienia.\n");
+    throw exept;
+  }
 	seats_taken--;
-
-	return true;
 }
 
 //// Return a specific audience member
 Customer* Show::getAudienceMember(int cust_id)
 {
-      return this->audience.getElement(cust_id-1);
+  return this->audience.getElement(cust_id-1);
+}
+
+bool Show::isEmpty()
+{
+  return (this->audience.getElement(0)==nullptr);
 }

@@ -119,8 +119,9 @@ template <typename T>
 typename Queue<T>::Node* Queue<T>::getPrecedingNode(T & el)
 {
 	//WARNING: this function will not check if the head is the node you are looking for
-// TODO: EXEPTION
   //You must check if the head is initialized (not will nullptr) BEFORE calling this function (memory leak otherwise)
+
+  //NOTE : function used only in one place, [safely]
 
   CustomIterator iter(this->head); //Create the iterator to iterate through the list
 	for (; iter.itr->next!=nullptr; iter++)
@@ -130,7 +131,6 @@ typename Queue<T>::Node* Queue<T>::getPrecedingNode(T & el)
 		    return iter.itr;
       } //return the node preceding the matching one
 	}
-
 	return nullptr;
 }
 
@@ -206,7 +206,6 @@ bool Queue<T>::operator- (T & el) //detach an element
 	}
   delete del_node;
   return true;
-
 }
 
 
@@ -224,18 +223,18 @@ T* Queue<T>::getElement (int n)
 		}
 		i++;
 	}
-
   if (iter.itr==nullptr)
   {
 		return nullptr;
-	}
-
-	return &(*iter); //operator * is here used as overloaded for the class CustomIterator
+	}else
+  {
+    return &(*iter); //operator * is here used as overloaded for the class CustomIterator
+  }
 }
 
 
 template <typename T>
-bool Queue<T>::findElement (T & el)
+bool Queue<T>::findElement (T & el) //NOTE: missleading name - left as-is
 { //check if the element is containted in the queue
 	CustomIterator iter(this->head);
 	for (; iter.itr!=nullptr; iter++)
