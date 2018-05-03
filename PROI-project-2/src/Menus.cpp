@@ -68,13 +68,13 @@ uint Menus::getOption(uint min, uint max, std::istream& s_in, std::ostream& s_ou
   s_in >> input;
   if(s_in.fail())
   {
-    Err_Struct exept1(0,1,0,"error during int input","Nieprawidlowy typ danych\n");
+    Err_Struct exept1(0,1,0,"error during int input\n","Nieprawidlowy typ danych\n");
     throw exept1;
   }else
   {
     if(input > max || input < min)
     {
-      Err_Struct exept2(0,0,0,"invalid int input","Nieprawidlowa opcja\n");
+      Err_Struct exept2(0,0,1,"invalid int input\n","Nieprawidlowa opcja\n");
       throw exept2;
     }
   }
@@ -123,6 +123,7 @@ std::stringstream Menus::putOptions(OPTIONS input)
 }
 
 //Cls// TODO: DELETE
+/*
 void Menus::scroll(int n) const
 {
 	for (int i=0; i<n; i++)
@@ -130,7 +131,10 @@ void Menus::scroll(int n) const
 		std::cout << '\n';  //Warning - to deprecate completly do not use
 	}
 }
+*/
+
 // TODO: DELETE _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
+/*
 //Main menu
 uint Menus::main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const
 {
@@ -158,7 +162,105 @@ uint Menus::sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
   s_out << this->putOptions(RESERVATIONS).rdbuf();
 	return this->getOption(0, 2, s_in, s_out, s_err);
 }
+*/
 // TODO: DELETE<endof> _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
+
+void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
+{
+  bool b_quit1=false, b_quit=false;
+	//progInfo();
+	//Menus theater_1;
+
+  while (!b_quit)
+  {
+    b_quit1 = false;
+    //decision = this->main(s_in, s_out, s_err);
+    //scroll(32);
+		try
+		{
+			s_out << this->putOptions(MAIN).rdbuf();
+	    switch (this->getOption(0, 3, s_in, s_out, s_err))
+	    {
+	      case 1:
+					while (!b_quit1)
+	        {
+	          //decision = this->cust(s_in, s_out, s_err);
+	          //scroll(32);
+						s_out << this->putOptions(CUSTOMERS).rdbuf();
+	          switch (this->getOption(0, 3, s_in, s_out, s_err))
+	          {
+						  case 1:
+								this->newCust(s_in, s_out, s_err);
+				        break;
+						  case 2:
+								this->delCust(s_in, s_out, s_err);
+							  break;
+						  case 3:
+					//TODO: move fun to class
+							  s_out << print<Customer>(cust_queue, cust_count).rdbuf();
+							  break;
+						  case 0:
+							  b_quit1 = true;
+							  break;
+					  }
+					}
+	        break;
+	      case 2:
+					while (!b_quit1)
+	        {
+	          //decision = this->perf(s_in, s_out, s_err);
+	          //scroll(32);
+						s_out << this->putOptions(PERFORMANCES).rdbuf();
+	          switch (this->getOption(0, 3, s_in, s_out, s_err))
+	          {
+						case 1:
+							this->newPerf(s_in, s_out, s_err);
+							break;
+						case 2:
+							this->delPerf(s_in, s_out, s_err);
+							break;
+						case 3:
+				//TODO: move fun to class
+							s_out << print<Show>(perf_queue, cust_count).rdbuf();
+							break;
+						case 0:
+							b_quit1 = true;
+							break;
+						}
+					}
+					break;
+				case 3:
+					while (!b_quit1)
+	        {
+					  //decision = this->sign(s_in, s_out, s_err);
+						s_out << this->putOptions(RESERVATIONS).rdbuf();
+					  switch (this->getOption(0, 2, s_in, s_out, s_err)){
+						case 1:
+							this->Sign(s_in, s_out, s_err);
+							break;
+						case 2:
+							this->Resign(s_in, s_out, s_err);
+							break;
+						case 0:
+							b_quit1 = true;
+							break;
+						}
+					}
+				  break;
+	      case 0:
+				  //scroll(32);
+	        b_quit = true;
+				  break;
+	      default:
+	        break;
+	    }
+		}catch(Err_Struct exept0)
+		{
+			exept0.handle(s_out, s_err);
+			//add istream.clear(), istream.sync()
+		}
+  }
+}
 
 void Menus::newCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
@@ -453,24 +555,4 @@ void Menus::Resign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 	}
 
 	//scroll(4);
-}
-
-void Menus::print_db(uint mode, std::ostream& s_out, std::ostream& s_err)
-{
-  try
-  {
-    switch (mode)
-  	{
-  		case 1:
-  			s_out << print<Customer>(cust_queue, cust_count).rdbuf();
-  			break;
-  		case 2:
-  			s_out << print<Show>(perf_queue, cust_count).rdbuf();
-  			break;
-  	}
-  }
-  catch(Err_Struct exept)
-	{
-		exept.handle(s_out, s_err);
-	}
 }

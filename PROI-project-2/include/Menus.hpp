@@ -41,17 +41,19 @@ public:
 	typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS, GENDERS}OPTIONS;
 	Menus();
 	~Menus();
+	void Interface(std::istream& s_in, std::ostream& s_out, std::ostream&);
+
 	//Helpful cls function
-	void scroll(int) const; //consider delete -> unnescesary
+	//void scroll(int) const; //consider delete -> unnescesary
 //consider making all of below private
-	void print_db(uint mode,  std::ostream& s_out, std::ostream& s_err);
+	//void print_db(uint mode,  std::ostream& s_out, std::ostream& s_err);
 	//Menus in which we choose further path
-	uint main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const; // for compatibility - to delete
-	uint cust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-	uint perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-	uint sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-	//Moved from main file ~przestaw
-	//void init(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
+	//uint main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const; // for compatibility - to delete
+	//uint cust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
+	//uint perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
+	//uint sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
+
+//Moved from main file ~przestaw
 	void newCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
 	void delCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
 	void newPerf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
