@@ -70,6 +70,10 @@ void Show::add_rate(uint rate_n)
 
 void Show::Rate()
 {
+  if(nr_of_rates == 0)
+  {
+    rate = 0;
+  }
   Customer* aud_member = this->audience.getElement(0);
 	if (aud_member==nullptr)
   {
@@ -142,9 +146,14 @@ std::stringstream Show::getInfo(SHOW_INFO info) const
 			str << seats_taken;
 			break;
     case RATE:
-      str << rate;
+      if(nr_of_rates > 0)
+      {
+        str << "Nie ocenione";
+      }else
+      {
+        str << rate;
+      }
 		default:
-
       throw "unprecised info[fun=Show::getInfo(SHOW_INFO)]";
 			break;
 	}

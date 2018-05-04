@@ -1,8 +1,6 @@
 /*
  * Menus.hpp
  *
- * Class Menus created to handle travelling between menus in the test2 programme
- * ^DECLARATION
  *
  * PROI, Lab project 2: 'Theater'
  * Tutor: dr inz. Wiktor Kusmirek
@@ -23,6 +21,7 @@
 #include "err_struct.hpp"
 #include <sstream>
 #include <iostream>
+#include <fstream>
 
 #define uint_fast16_t uint;
 
@@ -38,7 +37,7 @@ private:
 	uint cust_count;
 	uint perf_count;
 public:
-	typedef enum {MAIN, CUSTOMERS, PERFORMANCES, RESERVATIONS, GENDERS}OPTIONS;
+	typedef enum {MAIN, CUSTOMERS, PERFORMANCES, PERFORMANCES_SUB, RESERVATIONS, GENDERS}OPTIONS;
 	Menus();
 	~Menus();
 	void Interface(std::istream& s_in, std::ostream& s_out, std::ostream&);
@@ -53,20 +52,41 @@ public:
 	//uint perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
 	//uint sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
 
-//Moved from main file ~przestaw
-	void newCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
-	void delCust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
-	void newPerf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
-	void delPerf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
-	void Sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
-	void Resign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
+protected: // consider private
+	Show* getPerf(std::istream& s_in, std::ostream& s_out);
+	Customer* getCus(std::istream& s_in, std::ostream& s_out);
+	Customer* getAudMem(Show* perf, std::istream& s_in, std::ostream& s_out);
+
+//Moved fun from main file ~przestaw
+	void newCust(std::istream& s_in, std::ostream& s_out);
+	void delCust(std::istream& s_in, std::ostream& s_out);
+	void newPerf(std::istream& s_in, std::ostream& s_out);
+	void delPerf(std::istream& s_in, std::ostream& s_out);
+	void Sign(std::istream& s_in, std::ostream& s_out);
+	void Resign(std::istream& s_in, std::ostream& s_out);
+//New fun replacing and extending old ones ~przestaw
+	void FileExport(std::istream& s_in, std::ostream& s_out, std::stringstream& str);
 private:
-	static uint getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out, std::ostream& s_err);
+	static uint getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out);
 	static std::stringstream putOptions(OPTIONS which);
+
+	void print(Show* perf, std::ostream& s_out);
+
+	void print(Show* perf, std::ostream& s_out, std::ostream& s_export);
+
+	template <typename T>
+	std::stringstream getStream(Queue<T>* queue, int count);
+
+	template <typename T>
+	void print(Queue<T>* queue, int count, std::ostream& s_out);
+
+	template <typename T>
+	void print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_export);
+
 };
 
 template <typename T>
-std::stringstream print(Queue<T>* queue, int count)
+std::stringstream Menus::getStream(Queue<T>* queue, int count)
 {
 	std::stringstream str;
 	if (count)
@@ -83,7 +103,7 @@ std::stringstream print(Queue<T>* queue, int count)
 			}
 			else
 			{
-				Err_Struct exept(1,0,0,"unknown error in print [emplate function]");
+				Err_Struct exept(1,0,0,"unknown error in print [template function]");
 				throw  exept;
 			}
 		}
@@ -95,4 +115,18 @@ std::stringstream print(Queue<T>* queue, int count)
 	return str;
 }
 
+template <typename T>
+void Menus::print(Queue<T>* queue, int count, std::ostream& s_out)
+{
+	std::stringstream str = getStream<T>(queue, count);
+  s_out << str.rdbuf();
+}
+
+template <typename T>
+void Menus::print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_export)
+{
+	std::stringstream str = getStream<T>(queue, count);
+  s_out << str.rdbuf();
+  s_export << str.rdbuf();
+}
 #endif //_MENUS_HPP_

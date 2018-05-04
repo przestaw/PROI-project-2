@@ -2,11 +2,7 @@
  * test2.cpp
  *
  * TEST #2
- * A programme for testing the theater implementing classes
- * Testing includes:
- *  > Managing the customers database
- *  > Managing the performances database
- *  > Subscribing and unsubscribing customers to the performances
+ * A programme for testing the theater
  *
  * PROI, Lab project 2: 'Theater'
  * Tutor: dr inz. Wiktor Kuśmirek
@@ -57,7 +53,7 @@ void progInfo(std::ostream& s_out)
 	s_out << " ~ 'Theater' ~ \n\n"
 	 			<< "Projekt laboratoryjny 3, PROI\n"
 	 			<< "Prowadzacy: dr inz. Wiktor Kusmirek\n"
-	 			<< "Przemyslaw Stawczyk, 18L\n"
+	 			<< "Przemyslaw Stawczyk, 18L\n\n"
 				<< "Bazowany na :\n"
 				<< "Projekt laboratoryjny 2, PROI\n"
 				<< "Prowadzacy: dr inz. Wiktor Kusmirek\n"
