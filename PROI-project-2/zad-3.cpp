@@ -22,6 +22,7 @@
 void progInfo(std::ostream& s_out);
 
 /*****MAIN FUNCTION*****/
+
 int main()
 {
 //consider reaname of this class -> Interface? Theater?
@@ -59,6 +60,7 @@ int main()
 }
 
 /*Programme info*/
+
 void progInfo(std::ostream& s_out)
 {
 	s_out << " ~ 'Theater' ~ \n\n"
