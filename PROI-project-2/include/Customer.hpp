@@ -32,7 +32,7 @@ protected:
 		std::string forename;
 		std::string surname;
 		uint age;
-		static const SEX sex = UNDEFINED;
+		SEX sex;
 public:
 		/*Constructors & destructor*/
 		Customer();
@@ -48,8 +48,8 @@ public:
 
 		//void displayInfo (CUS_INFO); // for compatibility - to delete
 		//void displayInfo(); // for compatibility - to delete
-		std::stringstream getInfo(CUS_INFO);
-		std::stringstream getInfo();
+		virtual std::stringstream getInfo(CUS_INFO);
+		virtual std::stringstream getInfo();
 		inline uint tellAge() const { return this->age; }
 };
 

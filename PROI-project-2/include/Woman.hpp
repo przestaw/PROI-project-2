@@ -8,21 +8,19 @@
  * Tutor: dr inz. Wiktor Kusmirek
  * Przemysław Stawczyk
  */
- #include "Customer.hpp"
+#include "Customer.hpp"
 
- #ifndef _WOMAN_HPP_
- #define _WOMAN_HPP_
+#ifndef _WOMAN_HPP_
+#define _WOMAN_HPP_
 
- class Woman:public Customer
- {
-  private:
-    static const SEX sex = WOMAN;
+class Woman:public Customer
+{
   public:
     virtual uint Rate(Show *show_r);
     Woman();
     // two argument constructor ??
     Woman(std::string, std::string, uint);
     ~Woman();
- };
+};
 
- #endif //_WOMAN_HPP_
+#endif //_WOMAN_HPP_

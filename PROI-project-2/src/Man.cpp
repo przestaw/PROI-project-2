@@ -20,6 +20,7 @@ Man::Man()
 Man::Man(std::string p_forename, std::string p_surname, uint p_age)
   :Customer(p_forename, p_surname, p_age)
 {
+  this->sex = MAN;
   if(p_age < 18)
   {
     Err_Struct exept(0,1,1,"err = invalid age\n", "Mezczyzni sa pelnoletni !\n");

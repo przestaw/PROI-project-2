@@ -52,11 +52,8 @@ public:
 	//uint perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
 	//uint sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
 
-protected: // consider private
-	Show* getPerf(std::istream& s_in, std::ostream& s_out);
-	Customer* getCus(std::istream& s_in, std::ostream& s_out);
-	Customer* getAudMem(Show* perf, std::istream& s_in, std::ostream& s_out);
-
+//protected: // consider private
+public: //temporaily
 //Moved fun from main file ~przestaw
 	void newCust(std::istream& s_in, std::ostream& s_out);
 	void delCust(std::istream& s_in, std::ostream& s_out);
@@ -65,24 +62,21 @@ protected: // consider private
 	void Sign(std::istream& s_in, std::ostream& s_out);
 	void Resign(std::istream& s_in, std::ostream& s_out);
 //New fun replacing and extending old ones ~przestaw
+	Show* getPerf(std::istream& s_in, std::ostream& s_out);
+	Customer* getCus(std::istream& s_in, std::ostream& s_out);
+	Customer* getAudMem(Show* perf, std::istream& s_in, std::ostream& s_out);
 	void FileExport(std::istream& s_in, std::ostream& s_out, std::stringstream& str);
-private:
 	static uint getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out);
 	static std::stringstream putOptions(OPTIONS which);
 
 	void print(Show* perf, std::ostream& s_out);
-
 	void print(Show* perf, std::ostream& s_out, std::ostream& s_export);
-
-	template <typename T>
-	std::stringstream getStream(Queue<T>* queue, int count);
-
 	template <typename T>
 	void print(Queue<T>* queue, int count, std::ostream& s_out);
-
 	template <typename T>
 	void print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_export);
-
+	template <typename T>
+	std::stringstream getStream(Queue<T>* queue, int count);
 };
 
 template <typename T>

@@ -15,8 +15,6 @@
 
 class Child:public Customer
 {
- private:
-   static const SEX sex = KID;
  public:
    virtual uint Rate(Show *show_r);
    Child();

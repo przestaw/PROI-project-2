@@ -20,6 +20,7 @@ Child::Child()
 Child::Child(std::string p_forename, std::string p_surname, uint p_age)
   :Customer(p_forename, p_surname, p_age)
 {
+  this->sex = KID;
   if(p_age > 17)
   {
     Err_Struct exept(0,1,1,"err = invalid age\n", "Dzieci sa jedynie niepelnoletnie !\n");

@@ -153,8 +153,6 @@ std::stringstream Show::getInfo(SHOW_INFO info) const
       {
         str << rate;
       }
-		default:
-      throw "unprecised info[fun=Show::getInfo(SHOW_INFO)]";
 			break;
 	}
 	return str;

@@ -248,11 +248,11 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 							break;
 						case 3:
 							//s_out << print<Show>(perf_queue, cust_count).rdbuf();
-              print<Show>(perf_queue, cust_count, s_out);
+              print<Show>(perf_queue, perf_count, s_out);
               break;
             case 4:
               {
-                std::stringstream str = getStream<Show>(perf_queue, cust_count);
+                std::stringstream str = getStream<Show>(perf_queue, perf_count);
                 this->FileExport(s_in, s_out, str);
               }
               break;
@@ -332,18 +332,18 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 
 void Menus::FileExport(std::istream& s_in, std::ostream& s_out, std::stringstream& str)
 {
-  s_out << str.rdbuf();
+  //s_out << str.rdbuf() << '\n';
 
   std::string filename;
-  std::ofstream file;
+  std::fstream file;
 
   s_out << "Wprowadz nazwe pliku do ktorego chcesz eksportowac liste : ";
   s_in  >> filename;
   s_out << "Wprowadzona nazwa : " << filename;
 
-  file.open(filename, std::ofstream::ate);
+  file.open(filename, std::ofstream::out | std::ofstream::ate);
 
-  file << str.rdbuf();
+  file << str.rdbuf() << std::endl;
 
   file.close();
 }

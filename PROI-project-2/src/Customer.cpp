@@ -28,6 +28,7 @@ Customer::Customer(std::string p_forename, std::string p_surname, uint p_age)
   this->forename = p_forename;
   this->surname = p_surname;
 	this->age = p_age;
+  this->sex = UNDEFINED;
 }
 
 //// Default
@@ -50,7 +51,8 @@ bool Customer::operator== (Customer & another) const
 	return
 		this->forename==another.forename &&
 		this->surname==another.surname &&
-		this->age==another.age;
+		this->age==another.age &&
+    this->sex==another.sex;
 }
 
 /*METHODS*/
@@ -107,9 +109,9 @@ std::stringstream Customer::getInfo()
 {
   std::stringstream str;
       str << "| Imie: " << getInfo(FORE).rdbuf()
-          << "| Nazwisko: " << getInfo(SUR).rdbuf()
-          << "| Wiek: " << getInfo(AGE).rdbuf()
-          << "| Typ: " << getInfo(TYPE).rdbuf()
-          << "|\n";
+          << " | Nazwisko: " << getInfo(SUR).rdbuf()
+          << " | Wiek: " << getInfo(AGE).rdbuf()
+          << " | Typ: " << getInfo(TYPE).rdbuf()
+          << " |\n";
   return str;
 }

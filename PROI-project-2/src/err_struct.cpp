@@ -21,3 +21,12 @@ void Err_Struct::handle(std::ostream& s_out, std::ostream& s_err)
   }
   s_err << msg;
 }
+
+bool Err_Struct::operator== (Err_Struct &second) const
+{
+  return
+		this->ignore==second.ignore&&
+    this->retry==second.retry&&
+    this->display==second.display&&
+    this->msg==second.msg;
+}
