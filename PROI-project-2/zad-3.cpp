@@ -22,45 +22,31 @@
 void progInfo(std::ostream& s_out);
 
 /*****MAIN FUNCTION*****/
-
 int main()
 {
+	std::fstream logs;
 //consider reaname of this class -> Interface? Theater?
 	Menus theater_1;
 //configure the streams
 	std::istream& s_in = std::cin;
 	std::ostream& s_out = std::cout;
-	std::ostream& s_err = std::cerr;
+	std::stringstream s_err; //place for all occuring errors
 //show most importatnt info ( ͡° ͜ʖ ͡°)
 	progInfo(s_out);
 
-	//std::stringstream str;
-	//str << 1 << '\n' << 0 << '\n' << 0 << '\n';
-
-	//theater_1.Interface(str, s_out, s_err);
-/*
-	Queue<Customer>* cust_queue;
-	Customer* new_cust;
-	new_cust = new Customer("Adolf","Hitler",1000);
-	*cust_queue+*new_cust;
-	new_cust = new Woman("Janina","Juziak",67);
-	*cust_queue+*new_cust;
-	new_cust = new Man("Szczepan","Wodeczka",38);
-	*cust_queue+*new_cust;
-	new_cust = new Child("Kali","Nigga",15);
-	*cust_queue+*new_cust;
-*/
 	theater_1.Interface(s_in, s_out, s_err);
 
-	//scroll(32);
-  //freeMemory();
-  s_out << "( ͡° ͜ʖ ͡°) Dziekuje za skorzystanie z programu. (づ• ͜ʖ•)づ\n";
+	logs.open("errors.log.txt", std::fstream::out);
+	logs << s_err.str();
+	logs.close();
+
+  s_out << "Dziekuje za skorzystanie z programu. (づ• ͜ʖ•)づ\n";
 	s_in.get();
+
 	return 0;
 }
 
-/*Programme info*/
-
+/*Program info*/
 void progInfo(std::ostream& s_out)
 {
 	s_out << " ~ 'Theater' ~ \n\n"

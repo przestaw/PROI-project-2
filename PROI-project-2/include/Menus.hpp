@@ -32,7 +32,6 @@ private:
 	//Queues
 	Queue<Customer>* cust_queue; //customers queue
 	Queue<Show>* perf_queue; // performances queue
-
 	//Counting
 	uint cust_count;
 	uint perf_count;
@@ -41,20 +40,8 @@ public:
 	Menus();
 	~Menus();
 	void Interface(std::istream& s_in, std::ostream& s_out, std::ostream&);
-
-	//Helpful cls function
-	//void scroll(int) const; //consider delete -> unnescesary
-//consider making all of below private
-	//void print_db(uint mode,  std::ostream& s_out, std::ostream& s_err);
-	//Menus in which we choose further path
-	//uint main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const; // for compatibility - to delete
-	//uint cust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-	//uint perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-	//uint sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err); // for compatibility - to delete
-
-//protected: // consider private
-public: //temporaily
-//Moved fun from main file ~przestaw
+protected: // consider private - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _
+//Moved and re-made fun from main file ~przestaw
 	void newCust(std::istream& s_in, std::ostream& s_out);
 	void delCust(std::istream& s_in, std::ostream& s_out);
 	void newPerf(std::istream& s_in, std::ostream& s_out);
@@ -68,7 +55,6 @@ public: //temporaily
 	void FileExport(std::istream& s_in, std::ostream& s_out, std::stringstream& str);
 	static uint getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out);
 	static std::stringstream putOptions(OPTIONS which);
-
 	void print(Show* perf, std::ostream& s_out);
 	void print(Show* perf, std::ostream& s_out, std::ostream& s_export);
 	template <typename T>

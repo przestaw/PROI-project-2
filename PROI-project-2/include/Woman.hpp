@@ -18,7 +18,6 @@ class Woman:public Customer
   public:
     virtual uint Rate(Show *show_r);
     Woman();
-    // two argument constructor ??
     Woman(std::string, std::string, uint);
     ~Woman();
 };

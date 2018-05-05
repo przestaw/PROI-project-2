@@ -56,7 +56,6 @@ bool Customer::operator== (Customer & another) const
 }
 
 /*METHODS*/
-
 uint Customer::Rate(Show *show_r)
 {
   int rate = rand()%11;

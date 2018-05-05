@@ -36,18 +36,13 @@ protected:
 public:
 		/*Constructors & destructor*/
 		Customer();
-		Customer(std::string, std::string, uint);
-								//Exeption to add: copy-constructor etc.
+		Customer(std::string, std::string, uint);					
 		virtual ~Customer();
 
 		/*Operators == overloading*/
 		bool operator== (Customer &) const;
-
 		/*Methods*/
 		virtual uint Rate(Show *show_r); //TODO: implement here and in deriviated classes
-
-		//void displayInfo (CUS_INFO); // for compatibility - to delete
-		//void displayInfo(); // for compatibility - to delete
 		virtual std::stringstream getInfo(CUS_INFO);
 		virtual std::stringstream getInfo();
 		inline uint tellAge() const { return this->age; }

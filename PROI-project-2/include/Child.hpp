@@ -18,7 +18,6 @@ class Child:public Customer
  public:
    virtual uint Rate(Show *show_r);
    Child();
-   // two argument constructor ??
    Child(std::string, std::string, uint);
    ~Child();
 };

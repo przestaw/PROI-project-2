@@ -15,7 +15,7 @@ using std::string;
 
 /*Cons&des*/
 Menus::Menus()
-  :cust_count(0), perf_count(0)//, b_quit(false), b_quit1(false)
+  :cust_count(0), perf_count(0)
 {}
 
 Menus::~Menus()
@@ -38,7 +38,6 @@ Menus::~Menus()
     }
     delete cust_queue;
   }
-
 	//Free the memory used by shows queue
   if (perf_count)
 	{
@@ -143,60 +142,13 @@ std::stringstream Menus::putOptions(OPTIONS input)
   return ss_t;
 }
 
-//Cls// TODO: DELETE
-/*
-void Menus::scroll(int n) const
-{
-	for (int i=0; i<n; i++)
-  {
-		std::cout << '\n';  //Warning - to deprecate completly do not use
-	}
-}
-*/
-
-// TODO: DELETE _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
-/*
-//Main menu
-uint Menus::main(std::istream& s_in, std::ostream& s_out, std::ostream& s_err) const
-{
-  s_out << this->putOptions(MAIN).rdbuf();
-  return this->getOption(0, 3, s_in, s_out);
-}
-
-//Customer
-uint Menus::cust(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
-{
-  s_out << this->putOptions(CUSTOMERS).rdbuf();
-	return getOption(0, 3, s_in, s_out);
-}
-
-//Performance
-uint Menus::perf(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
-{
-  s_out << this->putOptions(PERFORMANCES).rdbuf();
-	return getOption(0, 3, s_in, s_out);
-}
-
-//Subscriptions
-uint Menus::sign(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
-{
-  s_out << this->putOptions(RESERVATIONS).rdbuf();
-	return this->getOption(0, 2, s_in, s_out);
-}
-*/
-// TODO: DELETE<endof> _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
-
 void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_err)
 {
-  bool b_quit0=false, b_quit1=false;//, b_quit2=false;
-	//progInfo();
-	//Menus theater_1;
+  bool b_quit0=false, b_quit1=false;
 
   while (!b_quit0)
   {
     b_quit1 = false;
-    //decision = this->main(s_in, s_out);
-    //scroll(32);
 		try
 		{
 			s_out << this->putOptions(MAIN).rdbuf();
@@ -205,8 +157,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 	      case 1:
 					while (!b_quit1)
 	        {
-	          //decision = this->cust(s_in, s_out);
-	          //scroll(32);
 						s_out << this->putOptions(CUSTOMERS).rdbuf();
 	          switch (this->getOption(0, 4, s_in, s_out))
 	          {
@@ -217,7 +167,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 								this->delCust(s_in, s_out);
 							  break;
 						  case 3:
-							  //s_out << print<Customer>(cust_queue, cust_count).rdbuf();
                 print<Customer>(cust_queue, cust_count, s_out);
 							  break;
               case 4:
@@ -235,8 +184,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 	      case 2:
 					while (!b_quit1)
 	        {
-	          //decision = this->perf(s_in, s_out);
-	          //scroll(32);
 						s_out << this->putOptions(PERFORMANCES).rdbuf();
 	          switch (this->getOption(0, 5, s_in, s_out))
 	          {
@@ -247,7 +194,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 							this->delPerf(s_in, s_out);
 							break;
 						case 3:
-							//s_out << print<Show>(perf_queue, cust_count).rdbuf();
               print<Show>(perf_queue, perf_count, s_out);
               break;
             case 4:
@@ -257,7 +203,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
               }
               break;
             case 5:
-//TODO: Submenu for Rate/Export audience
               while(!b_quit1)
               {
                 s_out << this->putOptions(PERFORMANCES_SUB).rdbuf();
@@ -300,7 +245,6 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 				case 3:
 					while (!b_quit1)
 	        {
-					  //decision = this->sign(s_in, s_out);
 						s_out << this->putOptions(RESERVATIONS).rdbuf();
 					  switch (this->getOption(0, 2, s_in, s_out)){
 						case 1:
@@ -325,7 +269,11 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 		}catch(Err_Struct exept0)
 		{
 			exept0.handle(s_out, s_err);
-			//TODO: add istream.clear(), istream.sync()
+			if(s_in.fail())
+      {
+        s_in.clear();
+        s_in.sync();
+      }
 		}
   }
 }
@@ -572,8 +520,6 @@ void Menus::Sign(std::istream& s_in, std::ostream& s_out)
 
     temp_cust = cust_queue->getElement(cust_id-1);
 
-    //scroll(32);
-
     if (temp_cust!=nullptr)
     {
       temp_perf->newBuyer(*temp_cust);
@@ -599,64 +545,4 @@ void Menus::Resign(std::istream& s_in, std::ostream& s_out)
   Customer* temp_cust = getAudMem(temp_perf, s_in, s_out);
   temp_perf->delBuyer(*temp_cust);
   s_out << "Pomyslnie wypisano widza z przedstawienia!" << '\n';
-/*
-  if (perf_count)
-	{ //Print the shows list; if it's empty, say it and return
-    print<Show>(perf_queue, cust_count, s_out);
-		Show* temp_perf;
-		int perf_id;
-
-		s_out << "Wybierz przedstawienie, z ktorego chcesz wypisac klienta. ";
-		s_in >> perf_id;
-
-		temp_perf = perf_queue->getElement(perf_id-1);
-
-		//scroll(32);
-
-		if (temp_perf!=nullptr)
-		{
-			s_out << "Przedstawienie '" << temp_perf->getInfo(Show::TITLE).rdbuf()
-						<< "', " << temp_perf->getInfo(Show::DATE).rdbuf()
-						<< " godz. " << temp_perf->getInfo(Show::HOUR).rdbuf()
-						<< ".\n";
-
-			s_out << "wcisnij dowolny przycisk by kontynuowac\n";
-			s_in.get();
-
-			if(temp_perf->isEmpty())
-			{ //Print the list of the members of the show's audience;
-
-
-				//scroll(32);
-				if (temp_cust!=nullptr)
-				{
-          temp_perf->delBuyer(*temp_cust);
-					s_out << "Pomyslnie wypisano widza z przedstawienia!" << '\n';
-				}
-				else
-				{
-          Err_Struct exept1(0,0,1, "there is no such customer in audience\n","Nie ma takiego widza na tym przedstawieniu.\n");
-					throw exept1;
-				}
-			}
-			else
-			{
-        Err_Struct exept2(0,0,1, "no audience for show\n","Brak zapisanych widzow na to przedstawienie!\n");
-				throw exept2;
-			}
-		}
-		else
-		{
-      Err_Struct exept3(0,0,1, "there is no such performance\n","Nie ma przedstawienia o takim numerze.\n");
-			throw exept3;
-		}
-	}
-	else
-	{
-    Err_Struct exept4(0,0,1, "there is no performances\n","Nie ma zadnych przedstawien!\n");
-		throw exept4;
-	}
-
-	//scroll(4);
-*/
 }

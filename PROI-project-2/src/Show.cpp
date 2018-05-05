@@ -21,8 +21,6 @@
 /****CLASS SHOW****/
 
 /*CONSTRUCTOR*/
-
-////
 Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_month, uint p_day, double p_hour, uint p_seats_limit)
   :title(p_title), min_age(p_min_age), hour(p_hour),
   seats_limit(p_seats_limit), seats_taken(0),
@@ -62,7 +60,6 @@ Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_
 Show::~Show(){}
 
 /*METHODS*/
-
 void Show::add_rate(uint rate_n)
 {
   rate = (rate_n + rate* nr_of_rates)/(++nr_of_rates);
@@ -173,21 +170,6 @@ std::stringstream Show::getInfo() const
 	return str;
 }
 
-
-//// Audience members list //TODO: Rework for strstream and exeptions
-/*
-bool Show::displayAudience()
-{
-	if (this->audience.getElement(0)==nullptr)
-  {
-		return false;
-	}
-
-  std::cout << getAudience().rdbuf();
-
-	return true;
-}
-*/
 std::stringstream Show::getAudience()
 {
 	Customer* aud_member = this->audience.getElement(0);

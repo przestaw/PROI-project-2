@@ -120,7 +120,6 @@ typename Queue<T>::Node* Queue<T>::getPrecedingNode(T & el)
 {
 	//WARNING: this function will not check if the head is the node you are looking for
   //You must check if the head is initialized (not will nullptr) BEFORE calling this function (memory leak otherwise)
-
   //NOTE : function used only in one place, [safely]
 
   CustomIterator iter(this->head); //Create the iterator to iterate through the list
@@ -135,7 +134,6 @@ typename Queue<T>::Node* Queue<T>::getPrecedingNode(T & el)
 }
 
 /*-Public-*/
-
 template <typename T>
 typename Queue<T>::Node* Queue<T>::operator+ (T & el) //attach new element
 {
@@ -208,7 +206,6 @@ bool Queue<T>::operator- (T & el) //detach an element
   return true;
 }
 
-
 template <typename T>
 T* Queue<T>::getElement (int n)
 { //take the data the n-th node points at
@@ -232,7 +229,6 @@ T* Queue<T>::getElement (int n)
   }
 }
 
-
 template <typename T>
 bool Queue<T>::findElement (T & el) //NOTE: missleading name - left as-is
 { //check if the element is containted in the queue
@@ -245,6 +241,5 @@ bool Queue<T>::findElement (T & el) //NOTE: missleading name - left as-is
 	}
 	return false; //reached the end of the queue and didn't find the elemnet
 }
-
 
 #endif //_QUEUE_HPP_
