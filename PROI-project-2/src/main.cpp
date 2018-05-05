@@ -22,7 +22,6 @@
 void progInfo(std::ostream& s_out);
 
 /*****MAIN FUNCTION*****/
-/*
 int main()
 {
 //consider reaname of this class -> Interface? Theater?
@@ -38,7 +37,7 @@ int main()
 	//str << 1 << '\n' << 0 << '\n' << 0 << '\n';
 
 	//theater_1.Interface(str, s_out, s_err);
-
+/*
 	Queue<Customer>* cust_queue;
 	Customer* new_cust;
 	new_cust = new Customer("Adolf","Hitler",1000);
@@ -49,7 +48,7 @@ int main()
 	*cust_queue+*new_cust;
 	new_cust = new Child("Kali","Nigga",15);
 	*cust_queue+*new_cust;
-
+*/
 	theater_1.Interface(s_in, s_out, s_err);
 
 	//scroll(32);
@@ -58,8 +57,6 @@ int main()
 	s_in.get();
 	return 0;
 }
-*/
-//TODO:
 
 /*Programme info*/
 void progInfo(std::ostream& s_out)
