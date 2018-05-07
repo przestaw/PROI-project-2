@@ -12,6 +12,12 @@ project(database_concept)
 
 include_directories(include)
 
-add_executable(zad-3 ${SOURCES} zad-3.cpp)
+add_library(Theater ${SOURCES})
 
-add_executable(zad-3-test ${SOURCES} test/test.cpp)
+add_executable(zad-3-test test/test.cpp)
+
+target_link_libraries(zad-3-test Theater)
+
+add_executable(zad-3 zad-3.cpp)
+
+target_link_libraries(zad-3 Theater)
