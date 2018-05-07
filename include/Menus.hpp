@@ -28,7 +28,7 @@
 /*Class to handle travelling between menus in the test2 programme*/
 class Menus
 {
-private:
+protected:
 	//Queues
 	Queue<Customer>* cust_queue; //customers queue
 	Queue<Show>* perf_queue; // performances queue
@@ -59,8 +59,6 @@ protected: // consider private - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 	void print(Show* perf, std::ostream& s_out, std::ostream& s_export);
 	template <typename T>
 	void print(Queue<T>* queue, int count, std::ostream& s_out);
-	template <typename T>
-	void print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_export);
 	template <typename T>
 	std::stringstream getStream(Queue<T>* queue, int count);
 };
@@ -102,11 +100,4 @@ void Menus::print(Queue<T>* queue, int count, std::ostream& s_out)
   s_out << str.rdbuf();
 }
 
-template <typename T>
-void Menus::print(Queue<T>* queue, int count, std::ostream& s_out, std::ostream& s_export)
-{
-	std::stringstream str = getStream<T>(queue, count);
-  s_out << str.rdbuf();
-  s_export << str.rdbuf();
-}
 #endif //_MENUS_HPP_

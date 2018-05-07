@@ -64,13 +64,6 @@ void Menus::print(Show* perf, std::ostream& s_out)
   s_out << str.rdbuf();
 }
 
-void Menus::print(Show* perf, std::ostream& s_out, std::ostream& s_export)
-{
-	std::stringstream str = perf->getAudience();
-  s_out << str.rdbuf();
-  s_export << str.rdbuf();
-}
-
 uint Menus::getOption(uint min, uint max, std::istream& s_in, std::ostream& s_out)
 {
   uint input;
@@ -268,12 +261,12 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 	    }
 		}catch(Err_Struct exept0)
 		{
-			exept0.handle(s_out, s_err);
 			if(s_in.fail())
       {
         s_in.clear();
         s_in.sync();
       }
+      exept0.handle(s_out, s_err);
 		}
   }
 }
