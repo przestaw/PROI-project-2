@@ -6,7 +6,7 @@
  * Przemysław Stawczyk
  */
 
-#define BOOST_TEST_MODULE Theater_Test
+#define BOOST_TEST_MODULE PROI__PROJECT_3_TEST
 #include <boost/test/included/unit_test.hpp>
 
 #define sucess "(づ• ͜ʖ•)づ" //unfortunately cannot use custom sucess message ~ TO DELETE
