@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_SUITE(Auto_Theater_Suite)
         perf.newBuyer(*(new Woman("Janina","Juziak",67)));
         perf.newBuyer(*(new Man("Szczepan","Wodeczka",38)));
         perf.newBuyer(*(new Child("Kali","Nigga",15)));
-      )
+      );
       Customer * temp = new Customer("Maluczki","Ludzik", 10);
       BOOST_CHECK_THROW(perf.newBuyer(*(temp)), Err_Struct);
       delete temp;
