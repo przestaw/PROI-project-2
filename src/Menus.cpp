@@ -71,7 +71,7 @@ uint Menus::getOption(uint min, uint max, std::istream& s_in, std::ostream& s_ou
   s_in >> input;
   if(s_in.fail())
   {
-    Err_Struct exept1(0,1,0,"error during int input\n","Nieprawidlowy typ danych\n");
+    Err_Struct exept1(0,1,1,"error during int input\n","Nieprawidlowy typ danych\n");
     throw exept1;
   }else
   {
@@ -261,10 +261,10 @@ void Menus::Interface(std::istream& s_in, std::ostream& s_out, std::ostream& s_e
 	    }
 		}catch(Err_Struct exept0)
 		{
-			if(s_in.fail())
+      if(s_in.fail())
       {
         s_in.clear();
-        s_in.sync();
+        s_in.ignore(128,'\n');
       }
       exept0.handle(s_out, s_err);
 		}

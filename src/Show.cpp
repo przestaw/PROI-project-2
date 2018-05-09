@@ -56,9 +56,6 @@ Show::Show(std::string p_title, int p_type, uint p_min_age, uint p_year, uint p_
 	}
 }
 
-/*DESTRUCTOR*/
-Show::~Show(){}
-
 /*METHODS*/
 void Show::add_rate(uint rate_n)
 {
@@ -74,9 +71,9 @@ void Show::Rate()
   Customer* aud_member = this->audience.getElement(0);
 	if (aud_member==nullptr)
   {
-		return;
+    Err_Struct exept(1,0,0,"show not rated [empty audience]\n", "Brak widzow mogacych ocenic przedstawienie\n");
+		throw exept;
 	}
-
 	for (int i=1; aud_member!=nullptr; i++)
   {
 		aud_member->Rate(this);

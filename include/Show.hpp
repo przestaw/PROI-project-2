@@ -29,7 +29,7 @@ class Show
 	     DRAMA, COMEDY, MUSICAL, OPERA, PANTOMIME} SHOW_TYPE;
 		typedef enum {
 		    TITLE, TYPE, MIN_AGE, DATE, HOUR, SEATS_LIMIT, SEATS_TAKEN, RATE} SHOW_INFO;
-	private:
+	protected:
 		std::string title;
 		SHOW_TYPE type;
 		uint min_age;
@@ -43,7 +43,6 @@ class Show
 	public:
 		/*Constructors & destructor*/
 		Show(std::string, int, uint, uint, uint, uint, double, uint);
-		~Show();
 
     void add_rate(uint);
     void Rate();
