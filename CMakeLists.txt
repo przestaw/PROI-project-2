@@ -8,8 +8,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 
 file(GLOB SOURCES "src/*.cpp")
 
-project(database_concept)
-
 include_directories(include)
 
 add_library(Theater ${SOURCES})
